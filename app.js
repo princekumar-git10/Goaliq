@@ -125,19 +125,28 @@ const ZONE_DATA = {
 
 /* ─── SECTION NAVIGATION ─────────────────────────────────────── */
 function showSection(name) {
-  // Hide all sections (hero is not a .section, handle separately)
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  // Hide all sections — MUST clear inline display styles too
+  document.querySelectorAll('.section').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = '';  // clear any inline display override
+  });
+  document.getElementById('section-hero').classList.remove('hero-visible');
   document.getElementById('section-hero').style.display = 'none';
 
   if (name === 'hero') {
     document.getElementById('section-hero').style.display = '';
+    document.getElementById('section-hero').classList.add('hero-visible');
   } else {
     const el = document.getElementById('section-' + name);
-    if (el) el.classList.add('active');
+    if (el) {
+      el.classList.add('active');
+      el.style.display = 'block';  // force display in case of residual inline style
+    }
   }
 
   STATE.currentSection = name;
   updateNavActive(name);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Trigger chart renders on first show
   if (name === 'crowd' && !STATE.crowdChartDrawn) {
@@ -983,12 +992,13 @@ function initHero() {
 
 /* ─── INITIAL SECTION VISIBILITY FIX ────────────────────────── */
 function initSections() {
-  // All .section should be display:none, hero is separately managed
-  document.querySelectorAll('.section').forEach(s => {
-    s.style.display = 'none';
-  });
+  // Ensure sections start hidden via CSS class (NOT inline styles)
+  // The CSS rule `.section { display: none; }` handles hiding
+  // `.section.active { display: block; }` handles showing
+  // We must NOT set inline style.display here, as it would override the class!
   document.querySelectorAll('.section').forEach(s => {
     s.classList.remove('active');
+    s.style.display = '';  // clear any inline display to let CSS classes work
   });
 }
 
