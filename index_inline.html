@@ -1,0 +1,3313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIFA World Cup 2026 — AI Platform | GoalIQ</title>
+  <meta name="description" content="GoalIQ: The official AI-powered fan & operations platform for FIFA World Cup 2026. Smart stadium navigation, multilingual support, crowd management, and more." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>" />
+  <style>
+/* ═══════════════════════════════════════════════════════════════
+   FIFA WORLD CUP 2026 — AI PLATFORM DESIGN SYSTEM
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── DESIGN TOKENS ─────────────────────────────────────────── */
+:root {
+  /* Colors */
+  --bg-base:        #060914;
+  --bg-surface:     #0d1525;
+  --bg-elevated:    #111c30;
+  --glass-bg:       rgba(255,255,255,0.04);
+  --glass-bg-hover: rgba(255,255,255,0.07);
+  --glass-border:   rgba(255,255,255,0.08);
+  --glass-border-hover: rgba(255,255,255,0.16);
+
+  /* Brand */
+  --fifa-red:       #E8001C;
+  --fifa-red-glow:  rgba(232,0,28,0.35);
+  --fifa-red-dim:   rgba(232,0,28,0.15);
+  --gold:           #FFD700;
+  --gold-glow:      rgba(255,215,0,0.3);
+  --gold-dim:       rgba(255,215,0,0.12);
+  --teal:           #00D4AA;
+  --teal-glow:      rgba(0,212,170,0.3);
+  --teal-dim:       rgba(0,212,170,0.1);
+  --purple:         #7C3AED;
+  --purple-glow:    rgba(124,58,237,0.3);
+
+  /* Text */
+  --text-primary:   #F8F9FA;
+  --text-secondary: #8892A4;
+  --text-muted:     #4A5568;
+
+  /* Status */
+  --success:        #22C55E;
+  --success-dim:    rgba(34,197,94,0.15);
+  --warning:        #F59E0B;
+  --warning-dim:    rgba(245,158,11,0.15);
+  --danger:         #EF4444;
+  --danger-dim:     rgba(239,68,68,0.15);
+  --info:           #3B82F6;
+  --info-dim:       rgba(59,130,246,0.15);
+
+  /* Spacing */
+  --space-xs: 4px; --space-sm: 8px; --space-md: 16px;
+  --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px;
+
+  /* Radius */
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+  --radius-xl: 24px; --radius-pill: 999px;
+
+  /* Typography */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 0.15s; --t-med: 0.3s; --t-slow: 0.5s;
+
+  /* Shadows */
+  --shadow-glow-red:  0 0 40px rgba(232,0,28,0.2);
+  --shadow-glow-gold: 0 0 40px rgba(255,215,0,0.15);
+  --shadow-card:      0 4px 24px rgba(0,0,0,0.4);
+  --shadow-elevated:  0 8px 48px rgba(0,0,0,0.6);
+}
+
+/* ─── RESET & BASE ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--fifa-red); }
+
+/* ─── ANIMATED BACKGROUND ────────────────────────────────────── */
+.bg-orbs {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12;
+  animation: orbFloat 12s ease-in-out infinite;
+}
+.orb-1 { width: 600px; height: 600px; background: var(--fifa-red); top: -200px; left: -100px; animation-delay: 0s; }
+.orb-2 { width: 500px; height: 500px; background: var(--gold); top: 50%; right: -200px; animation-delay: 4s; }
+.orb-3 { width: 400px; height: 400px; background: var(--teal); bottom: -100px; left: 30%; animation-delay: 8s; }
+.orb-4 { width: 300px; height: 300px; background: var(--purple); top: 30%; left: 40%; animation-delay: 2s; }
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(30px, -40px) scale(1.05); }
+  66%       { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* ─── GRID NOISE OVERLAY ─────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* ─── TICKER BAR ─────────────────────────────────────────────── */
+.ticker-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 36px;
+  background: linear-gradient(135deg, var(--fifa-red), #c0001a);
+  display: flex; align-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.ticker-label {
+  flex-shrink: 0;
+  padding: 0 16px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.25);
+  height: 100%;
+  display: flex; align-items: center;
+  border-right: 1px solid rgba(255,255,255,0.2);
+  white-space: nowrap;
+}
+.ticker-label span { color: var(--gold); }
+.ticker-track { overflow: hidden; flex: 1; }
+.ticker-items {
+  display: flex; gap: 60px;
+  white-space: nowrap;
+  animation: tickerScroll 40s linear infinite;
+  font-size: 12px; font-weight: 500;
+}
+.ticker-item { display: flex; align-items: center; gap: 8px; }
+.ticker-item .score { font-family: var(--font-heading); font-weight: 700; color: var(--gold); font-size: 13px; }
+.ticker-item .live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #fff; animation: livePulse 1s ease-in-out infinite;
+}
+@keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes livePulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+
+/* ─── NAVIGATION ─────────────────────────────────────────────── */
+.nav {
+  position: fixed; top: 36px; left: 0; right: 0; z-index: 999;
+  height: 64px;
+  background: rgba(6, 9, 20, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-heading);
+  font-size: 18px; font-weight: 800;
+  text-decoration: none; color: var(--text-primary);
+  flex-shrink: 0;
+}
+.nav-logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--fifa-red), #ff4d6b);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: var(--shadow-glow-red);
+}
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+  display: flex; align-items: center; gap: 2px;
+  flex: 1; overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+
+.nav-link {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--t-fast) var(--ease-smooth);
+  white-space: nowrap; border: none; background: none;
+  font-family: var(--font-body);
+}
+.nav-link:hover { color: var(--text-primary); background: var(--glass-bg); }
+.nav-link.active {
+  color: var(--fifa-red); background: var(--fifa-red-dim);
+  font-weight: 600;
+}
+.nav-link .nav-icon { font-size: 15px; }
+
+.nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+/* Role Switcher */
+.role-switcher {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  padding: 4px 6px;
+}
+.role-btn {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer; border: none;
+  background: transparent; color: var(--text-secondary);
+  transition: all var(--t-fast) var(--ease-smooth);
+  font-family: var(--font-body);
+}
+.role-btn.active { background: var(--fifa-red); color: #fff; }
+.role-btn:hover:not(.active) { color: var(--text-primary); background: var(--glass-bg-hover); }
+
+.nav-notification-btn {
+  position: relative; width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px;
+  transition: all var(--t-fast);
+}
+.nav-notification-btn:hover { background: var(--glass-bg-hover); border-color: var(--glass-border-hover); }
+.notif-badge {
+  position: absolute; top: 4px; right: 4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--fifa-red);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+/* ─── MAIN LAYOUT ────────────────────────────────────────────── */
+.app-wrapper {
+  position: relative; z-index: 1;
+  padding-top: 100px; /* ticker + nav */
+}
+
+/* ─── SECTIONS ───────────────────────────────────────────────── */
+.section {
+  display: none;
+  padding: 32px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: sectionIn var(--t-med) var(--ease-smooth);
+}
+.section.active { display: block; }
+
+@keyframes sectionIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTION HEADERS ────────────────────────────────────────── */
+.section-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px; gap: 16px;
+}
+.section-title-group {}
+.section-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--fifa-red);
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-eyebrow::before {
+  content: ''; display: inline-block;
+  width: 20px; height: 2px; background: var(--fifa-red);
+}
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 32px; font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-subtitle { font-size: 14px; color: var(--text-secondary); margin-top: 6px; }
+.section-badge {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  background: var(--success-dim); border: 1px solid rgba(34,197,94,0.3);
+  border-radius: var(--radius-pill);
+  font-size: 12px; font-weight: 600; color: var(--success);
+  white-space: nowrap;
+}
+.live-indicator { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: livePulse 1s infinite; }
+
+/* ─── GLASS CARDS ────────────────────────────────────────────── */
+.card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 20px;
+  transition: all var(--t-med) var(--ease-smooth);
+}
+.card:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-family: var(--font-heading); font-size: 15px; font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-icon {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.card-icon.red { background: var(--fifa-red-dim); }
+.card-icon.gold { background: var(--gold-dim); }
+.card-icon.teal { background: var(--teal-dim); }
+.card-icon.green { background: var(--success-dim); }
+.card-icon.purple { background: rgba(124,58,237,0.15); }
+
+/* ─── GRIDS ──────────────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid-12 { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; }
+.grid-21 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+
+/* ─── HERO SECTION ───────────────────────────────────────────── */
+.hero {
+  padding: 32px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.hero-inner {
+  position: relative;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 64px 48px;
+  overflow: hidden;
+  min-height: 480px;
+  display: flex; align-items: center;
+}
+.hero-bg-pattern {
+  position: absolute; inset: 0; z-index: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(232,0,28,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255,215,0,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 60% 80%, rgba(0,212,170,0.07) 0%, transparent 40%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 700px; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  background: var(--fifa-red-dim); border: 1px solid rgba(232,0,28,0.3);
+  border-radius: var(--radius-pill);
+  font-size: 12px; font-weight: 600; color: var(--fifa-red);
+  margin-bottom: 20px;
+  animation: tagPulse 3s ease-in-out infinite;
+}
+@keyframes tagPulse { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 20px rgba(232,0,28,0.3)} }
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: 56px; font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+.hero-title .gradient-text {
+  background: linear-gradient(135deg, var(--gold), #ff9500, var(--fifa-red));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 16px; color: var(--text-secondary); line-height: 1.7;
+  margin-bottom: 32px; max-width: 560px;
+}
+.hero-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--fifa-red), #c0001a);
+  border-radius: var(--radius-pill);
+  font-size: 14px; font-weight: 700;
+  color: #fff; cursor: pointer; border: none;
+  font-family: var(--font-body);
+  transition: all var(--t-med) var(--ease-bounce);
+  box-shadow: 0 4px 20px rgba(232,0,28,0.4);
+}
+.btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 32px rgba(232,0,28,0.5); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  font-size: 14px; font-weight: 600;
+  color: var(--text-primary); cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--t-med) var(--ease-smooth);
+}
+.btn-secondary:hover { background: var(--glass-bg-hover); border-color: var(--glass-border-hover); transform: translateY(-2px); }
+
+.hero-visual {
+  position: absolute; right: 48px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+.globe-container {
+  width: 300px; height: 300px;
+  position: relative;
+}
+.globe {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 35% 35%, rgba(255,255,255,0.15) 0%, transparent 40%),
+    conic-gradient(from 0deg, #0a3d6b, #1a5c9a, #0e4a7d, #0a3d6b);
+  border: 2px solid rgba(255,255,255,0.1);
+  animation: globeSpin 20s linear infinite;
+  box-shadow: 
+    0 0 60px rgba(26,92,154,0.4),
+    inset 0 0 40px rgba(0,0,0,0.5);
+  position: relative; overflow: hidden;
+}
+.globe::after {
+  content: '⚽';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 80px;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.5));
+  animation: ballSpin 5s ease-in-out infinite;
+}
+@keyframes globeSpin { to { transform: rotate(360deg); } }
+@keyframes ballSpin { 0%,100%{ transform:translate(-50%,-50%) scale(1); } 50%{ transform:translate(-50%,-55%) scale(1.05); } }
+
+.globe-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255,215,0,0.2);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  animation: ringPulse 3s ease-in-out infinite;
+}
+.globe-ring-1 { width: 320px; height: 320px; animation-delay: 0s; }
+.globe-ring-2 { width: 360px; height: 360px; animation-delay: 1s; opacity: 0.5; }
+.globe-ring-3 { width: 400px; height: 400px; animation-delay: 2s; opacity: 0.25; }
+@keyframes ringPulse { 0%,100%{opacity:0.3; transform:translate(-50%,-50%) scale(1)} 50%{opacity:0.7; transform:translate(-50%,-50%) scale(1.02)} }
+
+/* Hero Stats */
+.hero-stats { display: flex; gap: 32px; margin-top: 32px; flex-wrap: wrap; }
+.hero-stat {}
+.hero-stat-value {
+  font-family: var(--font-heading); font-size: 28px; font-weight: 800;
+  color: var(--gold); line-height: 1;
+}
+.hero-stat-label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Countdown */
+.countdown-wrapper {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 24px 32px;
+  margin-top: 32px;
+  display: inline-flex; align-items: center; gap: 24px;
+  flex-wrap: wrap;
+}
+.countdown-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--text-secondary); text-transform: uppercase; }
+.countdown-timer { display: flex; align-items: center; gap: 8px; }
+.countdown-unit {
+  text-align: center;
+}
+.countdown-num {
+  font-family: var(--font-heading); font-size: 36px; font-weight: 800;
+  color: var(--text-primary); line-height: 1;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px; min-width: 64px;
+  display: block;
+}
+.countdown-unit-label { font-size: 10px; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.countdown-sep {
+  font-family: var(--font-heading); font-size: 28px; font-weight: 800;
+  color: var(--fifa-red); margin-bottom: 16px;
+  animation: sepBlink 1s step-end infinite;
+}
+@keyframes sepBlink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ─── STAT CARDS ROW ─────────────────────────────────────────── */
+.stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+
+.stat-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  position: relative; overflow: hidden;
+  transition: all var(--t-med) var(--ease-smooth);
+}
+.stat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.stat-card.red::before { background: linear-gradient(90deg, var(--fifa-red), transparent); }
+.stat-card.gold::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.stat-card.teal::before { background: linear-gradient(90deg, var(--teal), transparent); }
+.stat-card.purple::before { background: linear-gradient(90deg, var(--purple), transparent); }
+.stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); background: var(--glass-bg-hover); border-color: var(--glass-border-hover); }
+
+.stat-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.stat-card-icon { font-size: 22px; }
+.stat-card-change {
+  font-size: 11px; font-weight: 600; padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+.stat-card-change.up { background: var(--success-dim); color: var(--success); }
+.stat-card-change.down { background: var(--danger-dim); color: var(--danger); }
+.stat-card-value {
+  font-family: var(--font-heading); font-size: 28px; font-weight: 800; line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-card-label { font-size: 12px; color: var(--text-secondary); }
+.stat-card-sub { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+
+/* ─── PROGRESS / GAUGES ──────────────────────────────────────── */
+.progress-bar { height: 6px; background: var(--glass-bg); border-radius: 3px; overflow: hidden; }
+.progress-fill {
+  height: 100%; border-radius: 3px;
+  transition: width 1s var(--ease-smooth);
+  position: relative;
+}
+.progress-fill::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  animation: shimmer 2s linear infinite;
+}
+@keyframes shimmer { to { transform: translateX(200%); } }
+
+.progress-fill.red { background: linear-gradient(90deg, var(--fifa-red), #ff4d6b); }
+.progress-fill.gold { background: linear-gradient(90deg, var(--gold), #ffc200); }
+.progress-fill.teal { background: linear-gradient(90deg, var(--teal), #00ffd4); }
+.progress-fill.green { background: linear-gradient(90deg, var(--success), #4ade80); }
+.progress-fill.warning { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+.progress-fill.danger { background: linear-gradient(90deg, var(--danger), #f87171); }
+
+/* ─── BADGE / TAG ────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: var(--radius-pill);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.3px;
+}
+.badge.red { background: var(--fifa-red-dim); color: var(--fifa-red); border: 1px solid rgba(232,0,28,0.2); }
+.badge.green { background: var(--success-dim); color: var(--success); border: 1px solid rgba(34,197,94,0.2); }
+.badge.warning { background: var(--warning-dim); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
+.badge.danger { background: var(--danger-dim); color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
+.badge.teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(0,212,170,0.2); }
+.badge.gold { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(255,215,0,0.2); }
+.badge.info { background: var(--info-dim); color: var(--info); border: 1px solid rgba(59,130,246,0.2); }
+
+/* ─── CHATBOT ────────────────────────────────────────────────── */
+.chatbot-fab {
+  position: fixed; bottom: 32px; right: 32px; z-index: 2000;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--fifa-red), #ff4d6b);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 8px 32px rgba(232,0,28,0.5);
+  transition: all var(--t-med) var(--ease-bounce);
+  animation: fabBreath 4s ease-in-out infinite;
+}
+.chatbot-fab:hover { transform: scale(1.12); box-shadow: 0 12px 48px rgba(232,0,28,0.7); }
+@keyframes fabBreath {
+  0%,100%{box-shadow:0 8px 32px rgba(232,0,28,0.5)}
+  50%{box-shadow:0 8px 48px rgba(232,0,28,0.8)}
+}
+
+.chatbot-panel {
+  position: fixed; bottom: 104px; right: 32px; z-index: 2000;
+  width: 380px; height: 560px;
+  background: rgba(13, 21, 37, 0.97);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: 20px;
+  backdrop-filter: blur(24px);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-elevated), 0 0 0 1px rgba(232,0,28,0.15);
+  transform: scale(0.8) translateY(20px);
+  transform-origin: bottom right;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--t-med) var(--ease-bounce);
+}
+.chatbot-panel.open {
+  transform: scale(1) translateY(0);
+  opacity: 1; pointer-events: all;
+}
+
+.chatbot-header {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(232,0,28,0.15), rgba(0,0,0,0));
+  border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+}
+.chatbot-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--fifa-red), #ff4d6b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  position: relative;
+}
+.chatbot-avatar::after {
+  content: ''; position: absolute;
+  bottom: 2px; right: 2px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--success);
+  border: 2px solid var(--bg-surface);
+}
+.chatbot-info { flex: 1; }
+.chatbot-name { font-family: var(--font-heading); font-size: 15px; font-weight: 700; }
+.chatbot-status { font-size: 11px; color: var(--success); }
+.chatbot-lang-select {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary); font-size: 11px;
+  padding: 4px 8px; cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.chatbot-messages {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.chatbot-messages::-webkit-scrollbar { width: 3px; }
+.chatbot-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.chat-msg { display: flex; gap: 8px; animation: msgIn 0.3s var(--ease-bounce); }
+@keyframes msgIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.chat-msg.user { flex-direction: row-reverse; }
+
+.chat-bubble {
+  max-width: 80%; padding: 10px 14px;
+  border-radius: 16px; font-size: 13px; line-height: 1.5;
+}
+.chat-msg.bot .chat-bubble {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: 4px 16px 16px 16px;
+}
+.chat-msg.user .chat-bubble {
+  background: linear-gradient(135deg, var(--fifa-red), #c0001a);
+  border-radius: 16px 4px 16px 16px;
+}
+
+.chat-quick-replies {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;
+}
+.chat-quick-btn {
+  padding: 5px 10px;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  font-size: 11px; font-weight: 500; color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  font-family: var(--font-body);
+}
+.chat-quick-btn:hover { background: var(--fifa-red-dim); border-color: rgba(232,0,28,0.3); color: var(--fifa-red); }
+
+.typing-indicator { display: flex; align-items: center; gap: 4px; padding: 8px 12px; }
+.typing-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-secondary);
+  animation: typingBounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2){ animation-delay:0.2s; }
+.typing-dot:nth-child(3){ animation-delay:0.4s; }
+@keyframes typingBounce { 0%,100%{transform:translateY(0);opacity:0.4} 50%{transform:translateY(-6px);opacity:1} }
+
+.chatbot-input-area {
+  padding: 12px 16px;
+  border-top: 1px solid var(--glass-border);
+  display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0;
+}
+.chatbot-input {
+  flex: 1; background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 10px 14px;
+  color: var(--text-primary); font-size: 13px; resize: none;
+  font-family: var(--font-body); max-height: 80px;
+  transition: border-color var(--t-fast);
+  outline: none;
+}
+.chatbot-input:focus { border-color: var(--fifa-red); }
+.chatbot-send {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--fifa-red), #c0001a);
+  border: none; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; font-size: 16px;
+  transition: all var(--t-fast);
+  flex-shrink: 0;
+}
+.chatbot-send:hover { transform: scale(1.05); }
+
+/* ─── STADIUM MAP ────────────────────────────────────────────── */
+.stadium-section { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.stadium-map-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 20px; }
+.stadium-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+.map-toggle-btn {
+  padding: 6px 14px; border-radius: var(--radius-pill);
+  font-size: 12px; font-weight: 600;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg); color: var(--text-secondary);
+  cursor: pointer; transition: all var(--t-fast);
+  font-family: var(--font-body);
+}
+.map-toggle-btn.active { background: var(--fifa-red-dim); border-color: rgba(232,0,28,0.3); color: var(--fifa-red); }
+.map-toggle-btn:hover:not(.active) { background: var(--glass-bg-hover); color: var(--text-primary); }
+
+.stadium-svg-wrapper {
+  position: relative; border-radius: var(--radius-md);
+  background: rgba(0,0,0,0.3); overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+#stadiumSvg { width: 100%; height: auto; display: block; cursor: pointer; }
+
+.zone-info-panel { display: flex; flex-direction: column; gap: 12px; }
+.zone-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md); padding: 14px;
+  cursor: pointer; transition: all var(--t-fast);
+}
+.zone-card:hover { background: var(--glass-bg-hover); border-color: var(--glass-border-hover); transform: translateX(-3px); }
+.zone-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.zone-card-name { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.zone-card-capacity { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.zone-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ─── CROWD DASHBOARD ────────────────────────────────────────── */
+.crowd-gauges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+.gauge-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg); padding: 20px;
+  display: flex; flex-direction: column; align-items: center;
+  transition: all var(--t-med);
+}
+.gauge-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); background: var(--glass-bg-hover); }
+.gauge-canvas-wrap { position: relative; width: 120px; height: 120px; margin-bottom: 12px; }
+.gauge-canvas-wrap canvas { position: absolute; top: 0; left: 0; }
+.gauge-value {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading); font-size: 22px; font-weight: 800;
+  line-height: 1; text-align: center;
+}
+.gauge-value span { display: block; font-size: 10px; font-weight: 500; color: var(--text-secondary); margin-top: 2px; }
+.gauge-label { font-size: 13px; font-weight: 700; text-align: center; margin-bottom: 4px; }
+.gauge-sublabel { font-size: 11px; color: var(--text-secondary); text-align: center; }
+
+/* Transport Cards */
+.transport-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.transport-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md); padding: 16px;
+  transition: all var(--t-med);
+  cursor: pointer;
+}
+.transport-card:hover { background: var(--glass-bg-hover); border-color: var(--glass-border-hover); transform: translateY(-2px); }
+.transport-icon { font-size: 28px; margin-bottom: 8px; }
+.transport-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.transport-status { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+.transport-wait {
+  font-family: var(--font-heading); font-size: 22px; font-weight: 800; color: var(--gold);
+}
+.transport-wait-label { font-size: 10px; color: var(--text-secondary); }
+
+/* Alert Banner */
+.alert-banner {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid;
+  margin-bottom: 16px;
+  animation: alertSlideIn 0.4s var(--ease-smooth);
+}
+@keyframes alertSlideIn { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:translateX(0)} }
+.alert-banner.warning { background: var(--warning-dim); border-color: rgba(245,158,11,0.3); }
+.alert-banner.danger  { background: var(--danger-dim);  border-color: rgba(239,68,68,0.3); }
+.alert-banner.info    { background: var(--info-dim);    border-color: rgba(59,130,246,0.3); }
+.alert-banner.success { background: var(--success-dim); border-color: rgba(34,197,94,0.3); }
+.alert-icon { font-size: 20px; flex-shrink: 0; }
+.alert-content { flex: 1; }
+.alert-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.alert-body { font-size: 12px; color: var(--text-secondary); }
+.alert-dismiss { cursor: pointer; opacity: 0.5; font-size: 16px; }
+.alert-dismiss:hover { opacity: 1; }
+
+/* ─── SUSTAINABILITY ─────────────────────────────────────────── */
+.sustain-ring-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.sustain-ring-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg); padding: 20px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  transition: all var(--t-med);
+}
+.sustain-ring-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); background: var(--glass-bg-hover); }
+.sustain-ring-wrap { position: relative; width: 100px; height: 100px; margin-bottom: 12px; }
+.sustain-ring-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.sustain-ring-text {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading); font-size: 18px; font-weight: 800;
+}
+.sustain-ring-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.sustain-ring-sub { font-size: 11px; color: var(--text-secondary); }
+
+/* Eco Tips */
+.eco-tip {
+  background: var(--teal-dim); border: 1px solid rgba(0,212,170,0.2);
+  border-radius: var(--radius-md); padding: 14px;
+  display: flex; gap: 12px; align-items: flex-start;
+  animation: ecoFade 0.5s var(--ease-smooth);
+}
+@keyframes ecoFade { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.eco-tip-icon { font-size: 22px; flex-shrink: 0; }
+.eco-tip-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.eco-tip-text strong { color: var(--teal); }
+
+/* ─── ACCESSIBILITY ──────────────────────────────────────────── */
+.access-service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.access-service-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md); padding: 18px;
+  text-align: center; cursor: pointer;
+  transition: all var(--t-med) var(--ease-smooth);
+  position: relative; overflow: hidden;
+}
+.access-service-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--info-dim), transparent);
+  opacity: 0; transition: opacity var(--t-fast);
+}
+.access-service-card:hover::before { opacity: 1; }
+.access-service-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: rgba(59,130,246,0.3); }
+.access-service-icon { font-size: 32px; margin-bottom: 10px; }
+.access-service-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.access-service-desc { font-size: 11px; color: var(--text-secondary); }
+.access-service-status {
+  margin-top: 10px;
+  font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: var(--radius-pill);
+  display: inline-block;
+}
+.access-service-status.available { background: var(--success-dim); color: var(--success); }
+.access-service-status.busy { background: var(--warning-dim); color: var(--warning); }
+.access-service-status.unavailable { background: var(--danger-dim); color: var(--danger); }
+
+/* ─── FAN EXPERIENCE ─────────────────────────────────────────── */
+.match-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg); padding: 20px;
+  transition: all var(--t-med);
+}
+.match-card:hover { transform: translateY(-3px); background: var(--glass-bg-hover); box-shadow: var(--shadow-card); border-color: var(--glass-border-hover); }
+.match-teams { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.team-name { font-family: var(--font-heading); font-size: 18px; font-weight: 800; }
+.team-flag { font-size: 32px; display: block; margin-bottom: 4px; }
+.match-vs {
+  font-family: var(--font-heading); font-size: 14px; font-weight: 800;
+  color: var(--text-secondary);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.match-score {
+  font-family: var(--font-heading); font-size: 32px; font-weight: 900; color: var(--gold);
+}
+.match-time-badge {
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  font-size: 11px; font-weight: 700; background: var(--fifa-red-dim);
+  border: 1px solid rgba(232,0,28,0.3); color: var(--fifa-red);
+}
+.match-info { display: flex; gap: 16px; flex-wrap: wrap; }
+.match-info-item { font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; }
+
+/* Social Sentiment */
+.sentiment-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+.sentiment-segment { height: 100%; transition: width 1s var(--ease-smooth); }
+
+/* ─── COMMAND CENTER ─────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+.kpi-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md); padding: 16px;
+  text-align: center; transition: all var(--t-fast);
+}
+.kpi-card:hover { background: var(--glass-bg-hover); transform: translateY(-2px); }
+.kpi-value { font-family: var(--font-heading); font-size: 24px; font-weight: 800; line-height: 1; margin: 8px 0 4px; }
+.kpi-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+
+/* Incident List */
+.incident-list { display: flex; flex-direction: column; gap: 10px; }
+.incident-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md); padding: 12px 16px;
+  cursor: pointer; transition: all var(--t-fast);
+  border-left: 3px solid;
+}
+.incident-item:hover { background: var(--glass-bg-hover); transform: translateX(3px); }
+.incident-item.high { border-left-color: var(--danger); }
+.incident-item.medium { border-left-color: var(--warning); }
+.incident-item.low { border-left-color: var(--info); }
+.incident-icon { font-size: 18px; flex-shrink: 0; }
+.incident-body { flex: 1; }
+.incident-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.incident-meta { font-size: 11px; color: var(--text-secondary); }
+.incident-time { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+
+/* Emergency Button */
+.emergency-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--danger), #c0392b);
+  border: none; border-radius: var(--radius-md);
+  color: #fff; font-family: var(--font-heading); font-size: 16px; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all var(--t-med) var(--ease-bounce);
+  box-shadow: 0 4px 20px rgba(239,68,68,0.4);
+}
+.emergency-btn:hover { transform: scale(1.02); box-shadow: 0 8px 32px rgba(239,68,68,0.6); }
+
+/* ─── ANALYTICS ──────────────────────────────────────────────── */
+.analytics-chart-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg); padding: 20px;
+}
+#analyticsChart { display: block; }
+
+/* ─── NOTIFICATIONS PANEL ────────────────────────────────────── */
+.notif-panel {
+  position: fixed; top: 100px; right: 24px; z-index: 1500;
+  width: 360px; display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none;
+}
+.notif-toast {
+  background: rgba(13, 21, 37, 0.95);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex; align-items: flex-start; gap: 12px;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-elevated);
+  pointer-events: all;
+  animation: toastIn 0.4s var(--ease-bounce);
+  border-left: 3px solid;
+  cursor: pointer;
+}
+.notif-toast.critical { border-left-color: var(--danger); }
+.notif-toast.warning  { border-left-color: var(--warning); }
+.notif-toast.info     { border-left-color: var(--info); }
+.notif-toast.success  { border-left-color: var(--success); }
+@keyframes toastIn { from{opacity:0;transform:translateX(100%)} to{opacity:1;transform:translateX(0)} }
+@keyframes toastOut { to{opacity:0;transform:translateX(110%)} }
+.toast-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.toast-body { flex: 1; }
+.toast-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.toast-msg   { font-size: 12px; color: var(--text-secondary); }
+.toast-time  { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+.toast-close { font-size: 14px; opacity: 0.4; cursor: pointer; flex-shrink: 0; }
+.toast-close:hover { opacity: 1; }
+
+/* ─── CANVAS CHARTS ──────────────────────────────────────────── */
+.chart-wrapper {
+  position: relative;
+  background: rgba(0,0,0,0.2);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  overflow: hidden;
+}
+
+/* ─── MISC COMPONENTS ────────────────────────────────────────── */
+.divider { height: 1px; background: var(--glass-border); margin: 20px 0; }
+.spacer-sm { height: 12px; } .spacer-md { height: 20px; } .spacer-lg { height: 32px; }
+
+.text-gradient-red {
+  background: linear-gradient(135deg, var(--fifa-red), #ff6b6b);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--gold), #ffc200);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.text-gradient-teal {
+  background: linear-gradient(135deg, var(--teal), #00ffd4);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-gap-sm { display: flex; align-items: center; gap: 8px; }
+.flex-gap-md { display: flex; align-items: center; gap: 16px; }
+
+.mt-sm { margin-top: 8px; } .mt-md { margin-top: 16px; } .mt-lg { margin-top: 24px; }
+.mb-sm { margin-bottom: 8px; } .mb-md { margin-bottom: 16px; }
+
+/* Volunteer Map */
+.volunteer-zone-list { display: flex; flex-direction: column; gap: 10px; }
+.volunteer-zone-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  transition: all var(--t-fast);
+}
+.volunteer-zone-item:hover { background: var(--glass-bg-hover); transform: translateX(3px); }
+.volunteer-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.volunteer-zone-name { font-size: 13px; font-weight: 600; flex: 1; }
+.volunteer-count {
+  font-family: var(--font-heading); font-size: 18px; font-weight: 800;
+  color: var(--teal);
+}
+.volunteer-needed { font-size: 11px; color: var(--text-muted); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .stat-cards { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-visual { display: none; }
+  .hero-title { font-size: 40px; }
+  .sustain-ring-grid { grid-template-columns: repeat(2, 1fr); }
+  .transport-grid { grid-template-columns: repeat(2, 1fr); }
+  .crowd-gauges { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .grid-12, .grid-21 { grid-template-columns: 1fr; }
+  .stadium-section { grid-template-columns: 1fr; }
+  .stat-cards { grid-template-columns: repeat(2, 1fr); }
+  .access-service-grid { grid-template-columns: repeat(2, 1fr); }
+  .chatbot-panel { width: 340px; }
+  .notif-panel { width: 320px; right: 12px; }
+  .hero-inner { padding: 40px 24px; }
+  .section { padding: 20px 16px; }
+  .role-switcher { display: none; }
+}
+@media (max-width: 600px) {
+  .hero-title { font-size: 30px; }
+  .stat-cards { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .chatbot-panel { width: 95vw; right: 2.5vw; }
+  .chatbot-fab { bottom: 20px; right: 20px; }
+  .crowd-gauges { grid-template-columns: 1fr; }
+  .sustain-ring-grid { grid-template-columns: 1fr; }
+  .transport-grid { grid-template-columns: 1fr; }
+  .access-service-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══ ANIMATED BACKGROUND ORBS ═══════════════════════════════ -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+
+<!-- ═══ LIVE MATCH TICKER ════════════════════════════════════════ -->
+<div class="ticker-bar" role="marquee" aria-label="Live match scores">
+  <div class="ticker-label">⚽ <span>LIVE</span></div>
+  <div class="ticker-track">
+    <div class="ticker-items" id="tickerItems">
+      <!-- Cloned in JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a class="nav-logo" href="#" onclick="showSection('hero'); return false;" aria-label="GoalIQ Home">
+    <div class="nav-logo-icon">⚽</div>
+    <span>Goal<span>IQ</span></span>
+  </a>
+
+  <div class="nav-links" role="menubar">
+    <button class="nav-link active" role="menuitem" onclick="showSection('hero')" id="nav-hero">
+      <span class="nav-icon">🏠</span> Home
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('stadium')" id="nav-stadium">
+      <span class="nav-icon">🗺️</span> Stadium
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('crowd')" id="nav-crowd">
+      <span class="nav-icon">📊</span> Crowd & Transport
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('fan')" id="nav-fan">
+      <span class="nav-icon">🎯</span> Fan Zone
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('accessibility')" id="nav-accessibility">
+      <span class="nav-icon">♿</span> Accessibility
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('sustainability')" id="nav-sustainability">
+      <span class="nav-icon">🌱</span> Sustainability
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('analytics')" id="nav-analytics">
+      <span class="nav-icon">📈</span> Analytics
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('command')" id="nav-command">
+      <span class="nav-icon">🛡️</span> Command Center
+    </button>
+  </div>
+
+  <div class="nav-right">
+    <div class="role-switcher" role="group" aria-label="Select user role">
+      <button class="role-btn active" id="role-fan"       onclick="switchRole('fan')">Fan</button>
+      <button class="role-btn"        id="role-volunteer" onclick="switchRole('volunteer')">Volunteer</button>
+      <button class="role-btn"        id="role-staff"     onclick="switchRole('staff')">Staff</button>
+      <button class="role-btn"        id="role-organizer" onclick="switchRole('organizer')">Organizer</button>
+    </div>
+    <button class="nav-notification-btn" onclick="toggleNotifications()" aria-label="Notifications" id="notifBtn">
+      🔔
+      <div class="notif-badge"></div>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ NOTIFICATIONS PANEL ══════════════════════════════════════ -->
+<div class="notif-panel" id="notifPanel" aria-live="polite"></div>
+
+<!-- ═══ APP WRAPPER ══════════════════════════════════════════════ -->
+<main class="app-wrapper">
+
+  <!-- ════ HERO SECTION ════════════════════════════════════════ -->
+  <div id="section-hero" class="hero">
+    <div class="hero-inner">
+      <div class="hero-bg-pattern"></div>
+      <div class="hero-content">
+        <div class="hero-tag">
+          <div class="live-indicator"></div>
+          🤖 AI-Powered Platform · FIFA World Cup 2026
+        </div>
+        <h1 class="hero-title">
+          The Future of<br>
+          <span class="gradient-text">World Cup</span><br>
+          Experience
+        </h1>
+        <p class="hero-desc">
+          GoalIQ combines Generative AI with real-time data to create the world's most advanced stadium experience platform — for fans, staff, volunteers, and organizers.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showSection('stadium')" id="exploreStadiumBtn">
+            🗺️ Explore Stadium
+          </button>
+          <button class="btn-secondary" onclick="toggleChatbot()" id="openAIBtn">
+            🤖 Ask AI Assistant
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value" id="heroAttendance">0</div>
+            <div class="hero-stat-label">Today's Attendance</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">48</div>
+            <div class="hero-stat-label">Teams Competing</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">16</div>
+            <div class="hero-stat-label">Host Cities</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">104</div>
+            <div class="hero-stat-label">Matches Total</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="globe-container">
+          <div class="globe-ring globe-ring-3"></div>
+          <div class="globe-ring globe-ring-2"></div>
+          <div class="globe-ring globe-ring-1"></div>
+          <div class="globe"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Countdown -->
+    <div style="margin-top:20px; display:flex; justify-content:center;">
+      <div class="countdown-wrapper">
+        <div>
+          <div class="countdown-label">Next Match Starts In</div>
+          <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">🏟️ MetLife Stadium · USA vs Mexico</div>
+        </div>
+        <div class="countdown-timer">
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-hours">00</span>
+            <div class="countdown-unit-label">Hours</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-mins">00</span>
+            <div class="countdown-unit-label">Mins</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-secs">00</span>
+            <div class="countdown-unit-label">Secs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats Row -->
+    <div class="stat-cards" style="margin-top:20px;">
+      <div class="stat-card red">
+        <div class="stat-card-header">
+          <span class="stat-card-icon">📍</span>
+          <span class="stat-card-change up">▲ 12%</span>
+        </div>
+        <div class="stat-card-value" id="statCrowdLevel">78%</div>
+        <div class="stat-card-label">Stadium Capacity</div>
+        <div class="stat-card-sub">🔴 High occupancy detected in North Stand</div>
+      </div>
+      <div class="stat-card gold">
+        <div class="stat-card-header">
+          <span class="stat-card-icon">🚇</span>
+          <span class="stat-card-change down">▼ 3min</span>
+        </div>
+        <div class="stat-card-value" id="statTransitWait">8 min</div>
+        <div class="stat-card-label">Transit Wait Time</div>
+        <div class="stat-card-sub">🟡 Green Line slightly delayed</div>
+      </div>
+      <div class="stat-card teal">
+        <div class="stat-card-header">
+          <span class="stat-card-icon">🌱</span>
+          <span class="stat-card-change up">▲ 4%</span>
+        </div>
+        <div class="stat-card-value">62%</div>
+        <div class="stat-card-label">Renewable Energy Use</div>
+        <div class="stat-card-sub">🟢 Solar panels at peak output</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-card-header">
+          <span class="stat-card-icon">🤖</span>
+          <span class="stat-card-change up">▲ 19%</span>
+        </div>
+        <div class="stat-card-value">4,291</div>
+        <div class="stat-card-label">AI Queries Resolved</div>
+        <div class="stat-card-sub">💬 in last 60 minutes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ STADIUM NAVIGATOR ════════════════════════════════════ -->
+  <section id="section-stadium" class="section" aria-label="Smart Stadium Navigator">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">AI-Powered Navigation</div>
+        <h2 class="section-title">Smart Stadium Navigator</h2>
+        <p class="section-subtitle">Real-time zone status, crowd heatmaps and AI-guided pathfinding</p>
+      </div>
+      <div class="section-badge"><div class="live-indicator"></div> Live Updates</div>
+    </div>
+
+    <div class="alert-banner warning" id="stadiumAlert">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <div class="alert-title">AI Alert: North Stand Gate C Congested</div>
+        <div class="alert-body">Crowd density at 94% capacity. AI recommends using Gate D or E. Estimated wait: 4 min via alternate route.</div>
+      </div>
+      <div class="alert-dismiss" onclick="this.parentElement.remove()">✕</div>
+    </div>
+
+    <div class="stadium-section">
+      <div class="stadium-map-card">
+        <div class="flex-between mb-md">
+          <div class="card-title">🏟️ MetLife Stadium — Interactive Map</div>
+          <div style="font-size:12px;color:var(--text-secondary);">Click any zone for details</div>
+        </div>
+        <div class="stadium-controls">
+          <button class="map-toggle-btn active" id="mapBtnNormal" onclick="setMapLayer('normal')">Normal View</button>
+          <button class="map-toggle-btn" id="mapBtnHeat" onclick="setMapLayer('heat')">🔥 Heatmap</button>
+          <button class="map-toggle-btn" id="mapBtnAccess" onclick="setMapLayer('access')">♿ Accessible</button>
+          <button class="map-toggle-btn" id="mapBtnRoute" onclick="setMapLayer('route')">🗺️ Route</button>
+        </div>
+        <div class="stadium-svg-wrapper">
+          <svg id="stadiumSvg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stadium map">
+            <!-- Outer stadium shell -->
+            <ellipse cx="400" cy="250" rx="380" ry="230" fill="#0d1525" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+            <!-- Field -->
+            <ellipse cx="400" cy="250" rx="250" ry="150" fill="#1a3a1a" stroke="#2d5a2d" stroke-width="2"/>
+            <!-- Field markings -->
+            <ellipse cx="400" cy="250" rx="220" ry="120" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <line x1="400" y1="130" x2="400" y2="370" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <ellipse cx="400" cy="250" rx="30" ry="30" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <circle cx="400" cy="250" r="3" fill="rgba(255,255,255,0.4)"/>
+            <!-- Goals -->
+            <rect x="150" y="228" width="12" height="44" fill="none" stroke="white" stroke-width="1.5" opacity="0.6"/>
+            <rect x="638" y="228" width="12" height="44" fill="none" stroke="white" stroke-width="1.5" opacity="0.6"/>
+
+            <!-- STANDS — clickable zones -->
+            <!-- North Stand -->
+            <g class="stadium-zone" id="zone-north" onclick="selectZone('north')" style="cursor:pointer;">
+              <path d="M200,70 Q400,20 600,70 L560,130 Q400,85 240,130 Z" fill="rgba(232,0,28,0.35)" stroke="rgba(232,0,28,0.6)" stroke-width="1.5" class="zone-path"/>
+              <text x="400" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Outfit">NORTH STAND</text>
+              <text x="400" y="116" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">Gate A·B·C — 94% Full ⚠️</text>
+            </g>
+
+            <!-- South Stand -->
+            <g class="stadium-zone" id="zone-south" onclick="selectZone('south')" style="cursor:pointer;">
+              <path d="M200,430 Q400,480 600,430 L560,370 Q400,415 240,370 Z" fill="rgba(34,197,94,0.25)" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" class="zone-path"/>
+              <text x="400" y="418" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Outfit">SOUTH STAND</text>
+              <text x="400" y="434" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">Gate D·E·F — 61% Full ✅</text>
+            </g>
+
+            <!-- East Stand -->
+            <g class="stadium-zone" id="zone-east" onclick="selectZone('east')" style="cursor:pointer;">
+              <path d="M640,120 Q730,250 640,380 L590,330 Q670,250 590,170 Z" fill="rgba(255,215,0,0.2)" stroke="rgba(255,215,0,0.5)" stroke-width="1.5" class="zone-path"/>
+              <text x="665" y="255" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Outfit">EAST</text>
+              <text x="665" y="270" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">Gate G·H</text>
+            </g>
+
+            <!-- West Stand -->
+            <g class="stadium-zone" id="zone-west" onclick="selectZone('west')" style="cursor:pointer;">
+              <path d="M160,120 Q70,250 160,380 L210,330 Q130,250 210,170 Z" fill="rgba(0,212,170,0.2)" stroke="rgba(0,212,170,0.5)" stroke-width="1.5" class="zone-path"/>
+              <text x="135" y="255" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Outfit">WEST</text>
+              <text x="135" y="270" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">VIP·Press</text>
+            </g>
+
+            <!-- VIP / Press Box -->
+            <g class="stadium-zone" id="zone-vip" onclick="selectZone('vip')" style="cursor:pointer;">
+              <rect x="330" y="170" width="140" height="60" rx="8" fill="rgba(124,58,237,0.3)" stroke="rgba(124,58,237,0.6)" stroke-width="1.5"/>
+              <text x="400" y="197" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="Outfit">VIP / PRESS</text>
+              <text x="400" y="212" text-anchor="middle" fill="rgba(255,215,0,0.8)" font-size="10">Restricted Access</text>
+            </g>
+
+            <!-- Food Court Markers -->
+            <g id="zone-food" onclick="selectZone('food')" style="cursor:pointer;">
+              <circle cx="290" cy="420" r="20" fill="rgba(245,158,11,0.3)" stroke="rgba(245,158,11,0.7)" stroke-width="1.5"/>
+              <text x="290" y="415" text-anchor="middle" font-size="14">🍔</text>
+              <text x="290" y="428" text-anchor="middle" fill="white" font-size="8" font-family="Outfit">FOOD</text>
+              <circle cx="510" cy="420" r="20" fill="rgba(245,158,11,0.3)" stroke="rgba(245,158,11,0.7)" stroke-width="1.5"/>
+              <text x="510" y="415" text-anchor="middle" font-size="14">🍔</text>
+              <text x="510" y="428" text-anchor="middle" fill="white" font-size="8" font-family="Outfit">FOOD</text>
+            </g>
+
+            <!-- First Aid -->
+            <g id="zone-firstaid" onclick="selectZone('firstaid')" style="cursor:pointer;">
+              <circle cx="290" cy="80" r="16" fill="rgba(239,68,68,0.3)" stroke="rgba(239,68,68,0.7)" stroke-width="1.5"/>
+              <text x="290" y="76" text-anchor="middle" font-size="12">🏥</text>
+              <text x="290" y="88" text-anchor="middle" fill="white" font-size="7" font-family="Outfit">FIRST AID</text>
+              <circle cx="510" cy="80" r="16" fill="rgba(239,68,68,0.3)" stroke="rgba(239,68,68,0.7)" stroke-width="1.5"/>
+              <text x="510" y="76" text-anchor="middle" font-size="12">🏥</text>
+              <text x="510" y="88" text-anchor="middle" fill="white" font-size="7" font-family="Outfit">FIRST AID</text>
+            </g>
+
+            <!-- Accessible zones -->
+            <g id="zone-accessible" onclick="selectZone('accessible')" style="cursor:pointer;">
+              <circle cx="170" cy="440" r="16" fill="rgba(59,130,246,0.3)" stroke="rgba(59,130,246,0.7)" stroke-width="1.5"/>
+              <text x="170" y="436" text-anchor="middle" font-size="12">♿</text>
+              <text x="170" y="452" text-anchor="middle" fill="white" font-size="7" font-family="Outfit">ACCESS</text>
+              <circle cx="630" cy="440" r="16" fill="rgba(59,130,246,0.3)" stroke="rgba(59,130,246,0.7)" stroke-width="1.5"/>
+              <text x="630" y="436" text-anchor="middle" font-size="12">♿</text>
+              <text x="630" y="452" text-anchor="middle" fill="white" font-size="7" font-family="Outfit">ACCESS</text>
+            </g>
+
+            <!-- AI Route Overlay (hidden by default) -->
+            <g id="aiRoute" style="display:none;">
+              <path d="M400,450 Q400,420 290,420 Q240,420 210,370 Q190,330 190,250" stroke="#00D4AA" stroke-width="3" fill="none" stroke-dasharray="10,5" opacity="0.8">
+                <animate attributeName="stroke-dashoffset" from="0" to="-30" dur="1s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="400" cy="455" r="8" fill="var(--teal)" opacity="0.9"/>
+              <circle cx="190" cy="250" r="8" fill="var(--gold)" opacity="0.9"/>
+              <text x="400" y="475" text-anchor="middle" fill="var(--teal)" font-size="10" font-family="Outfit">📍 You</text>
+              <text x="175" y="240" text-anchor="end" fill="var(--gold)" font-size="10" font-family="Outfit">🎯 Dest</text>
+            </g>
+
+            <!-- Heatmap overlay -->
+            <g id="heatmapOverlay" style="display:none;">
+              <defs>
+                <radialGradient id="heatNorth" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#EF4444" stop-opacity="0.7"/>
+                  <stop offset="100%" stop-color="#EF4444" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="heatSouth" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#22C55E" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#22C55E" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="400" cy="100" rx="220" ry="70" fill="url(#heatNorth)"/>
+              <ellipse cx="400" cy="400" rx="200" ry="60" fill="url(#heatSouth)"/>
+              <ellipse cx="660" cy="250" rx="80" ry="120" fill="rgba(255,215,0,0.3)"/>
+              <ellipse cx="140" cy="250" rx="80" ry="120" fill="rgba(0,212,170,0.25)"/>
+            </g>
+
+            <!-- Accessibility overlay -->
+            <g id="accessOverlay" style="display:none;">
+              <path d="M170,440 Q170,380 210,330 Q250,280 250,250" stroke="#3B82F6" stroke-width="3" fill="none" stroke-dasharray="8,4" opacity="0.9"/>
+              <path d="M630,440 Q630,380 590,330 Q550,280 550,250" stroke="#3B82F6" stroke-width="3" fill="none" stroke-dasharray="8,4" opacity="0.9"/>
+              <text x="400" y="470" text-anchor="middle" fill="#3B82F6" font-size="11" font-family="Outfit">♿ Accessible Routes Highlighted</text>
+            </g>
+
+            <!-- Compass -->
+            <text x="760" y="40" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="12" font-family="Outfit">N</text>
+            <text x="760" y="480" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="12" font-family="Outfit">S</text>
+          </svg>
+        </div>
+
+        <!-- Zone Detail Info -->
+        <div id="zoneDetail" class="mt-md" style="display:none;">
+          <div class="alert-banner info" id="zoneDetailBanner">
+            <div class="alert-icon" id="zoneDetailIcon">📍</div>
+            <div class="alert-content">
+              <div class="alert-title" id="zoneDetailTitle">Zone Name</div>
+              <div class="alert-body" id="zoneDetailBody">Zone information</div>
+            </div>
+            <button onclick="document.getElementById('aiRoute').style.display='block'" class="btn-secondary" style="padding:6px 12px; font-size:12px; white-space:nowrap;">🗺️ Get Route</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zone Info Sidebar -->
+      <div class="zone-info-panel">
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon red">🏟️</span> Zone Status</div>
+          <div class="zone-card" onclick="selectZone('north')">
+            <div class="zone-card-header">
+              <div class="zone-card-name"><span class="zone-dot" style="background:#EF4444"></span>North Stand</div>
+              <span class="badge danger">CONGESTED</span>
+            </div>
+            <div class="zone-card-capacity">Gate A · B · C</div>
+            <div class="progress-bar"><div class="progress-fill danger" style="width:94%"></div></div>
+            <div class="zone-card-capacity mt-sm">94% capacity · Est. wait 8 min</div>
+          </div>
+          <div class="zone-card" onclick="selectZone('south')">
+            <div class="zone-card-header">
+              <div class="zone-card-name"><span class="zone-dot" style="background:#22C55E"></span>South Stand</div>
+              <span class="badge green">OPEN</span>
+            </div>
+            <div class="zone-card-capacity">Gate D · E · F</div>
+            <div class="progress-bar"><div class="progress-fill green" style="width:61%"></div></div>
+            <div class="zone-card-capacity mt-sm">61% capacity · Est. wait 2 min</div>
+          </div>
+          <div class="zone-card" onclick="selectZone('east')">
+            <div class="zone-card-header">
+              <div class="zone-card-name"><span class="zone-dot" style="background:#FFD700"></span>East Stand</div>
+              <span class="badge warning">BUSY</span>
+            </div>
+            <div class="zone-card-capacity">Gate G · H</div>
+            <div class="progress-bar"><div class="progress-fill warning" style="width:78%"></div></div>
+            <div class="zone-card-capacity mt-sm">78% capacity · Est. wait 5 min</div>
+          </div>
+          <div class="zone-card" onclick="selectZone('west')">
+            <div class="zone-card-header">
+              <div class="zone-card-name"><span class="zone-dot" style="background:#00D4AA"></span>West Stand / VIP</div>
+              <span class="badge teal">VIP ONLY</span>
+            </div>
+            <div class="zone-card-capacity">Press · VIP · Suite Level</div>
+            <div class="progress-bar"><div class="progress-fill teal" style="width:45%"></div></div>
+            <div class="zone-card-capacity mt-sm">45% · Credential required</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon gold">🤖</span> AI Recommendations</div>
+          <div style="display:flex;flex-direction:column;gap:10px;" id="aiRecommendations">
+            <div class="eco-tip" style="background:var(--fifa-red-dim);border-color:rgba(232,0,28,0.2);">
+              <div class="eco-tip-icon">🚨</div>
+              <div class="eco-tip-text"><strong style="color:var(--fifa-red)">High Alert:</strong> Avoid Gate C — rerouting 2,400 fans to Gate D automatically via push notification.</div>
+            </div>
+            <div class="eco-tip">
+              <div class="eco-tip-icon">⏱️</div>
+              <div class="eco-tip-text"><strong>Queue Prediction:</strong> Halftime surge expected at Gates A-C in <strong>~14 minutes</strong>. Deploying 6 extra staff.</div>
+            </div>
+            <div class="eco-tip" style="background:var(--gold-dim);border-color:rgba(255,215,0,0.2);">
+              <div class="eco-tip-icon">🍔</div>
+              <div class="eco-tip-text">Food Court 2 (South) has <strong style="color:var(--gold)">shorter queues</strong>. Average wait: 3 min vs 11 min at Food Court 1.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ CROWD & TRANSPORT ════════════════════════════════════ -->
+  <section id="section-crowd" class="section" aria-label="Crowd and Transport Management">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Real-Time Management</div>
+        <h2 class="section-title">Crowd &amp; Transport Hub</h2>
+        <p class="section-subtitle">Live density monitoring, predictive surge detection &amp; transport status</p>
+      </div>
+      <div class="section-badge"><div class="live-indicator"></div> Live Data Stream</div>
+    </div>
+
+    <!-- Crowd Density Gauges -->
+    <div class="crowd-gauges">
+      <div class="gauge-card">
+        <div class="gauge-canvas-wrap">
+          <canvas id="gauge-north" width="120" height="120"></canvas>
+          <div class="gauge-value" id="gauge-north-text" style="color:#EF4444">94%<span>North</span></div>
+        </div>
+        <div class="gauge-label">North Stand</div>
+        <div class="gauge-sublabel">⚠️ 12,680 / 13,500</div>
+        <span class="badge danger" style="margin-top:8px">CONGESTED</span>
+      </div>
+      <div class="gauge-card">
+        <div class="gauge-canvas-wrap">
+          <canvas id="gauge-south" width="120" height="120"></canvas>
+          <div class="gauge-value" id="gauge-south-text" style="color:#22C55E">61%<span>South</span></div>
+        </div>
+        <div class="gauge-label">South Stand</div>
+        <div class="gauge-sublabel">✅ 8,235 / 13,500</div>
+        <span class="badge green" style="margin-top:8px">OPEN</span>
+      </div>
+      <div class="gauge-card">
+        <div class="gauge-canvas-wrap">
+          <canvas id="gauge-east" width="120" height="120"></canvas>
+          <div class="gauge-value" id="gauge-east-text" style="color:#F59E0B">78%<span>East</span></div>
+        </div>
+        <div class="gauge-label">East Stand</div>
+        <div class="gauge-sublabel">🟡 10,530 / 13,500</div>
+        <span class="badge warning" style="margin-top:8px">BUSY</span>
+      </div>
+    </div>
+
+    <!-- Crowd Flow Chart -->
+    <div class="analytics-chart-card mb-md">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon red">📈</span> Real-Time Crowd Flow — Last 3 Hours</div>
+        <span class="badge green"><div class="live-indicator"></div> Updating</span>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="crowdFlowChart" width="900" height="200" style="width:100%;height:200px;display:block;"></canvas>
+      </div>
+    </div>
+
+    <!-- AI Surge Alert -->
+    <div class="alert-banner danger mb-md" id="surgeAlert">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-content">
+        <div class="alert-title">AI Prediction: Crowd Surge in 12 Minutes</div>
+        <div class="alert-body">North Stand halftime exit projected at 8,900 people. AI auto-deploying crowd control to Gates A–C. Consider activating overflow Protocol Alpha.</div>
+      </div>
+      <div class="alert-dismiss" onclick="this.parentElement.remove()">✕</div>
+    </div>
+
+    <!-- Transport Status -->
+    <div class="card mb-md">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon gold">🚇</span> Transport Status</div>
+        <button class="btn-secondary" style="padding:6px 14px;font-size:12px;" onclick="refreshTransport()" id="refreshTransportBtn">🔄 Refresh</button>
+      </div>
+      <div class="transport-grid">
+        <div class="transport-card">
+          <div class="transport-icon">🚇</div>
+          <div class="transport-name">Subway — Line 4</div>
+          <div class="transport-status">🟡 Minor Delays · Meadowlands</div>
+          <div class="transport-wait" id="wait-subway">8</div>
+          <div class="transport-wait-label">min avg wait</div>
+          <div class="spacer-sm"></div>
+          <div class="progress-bar"><div class="progress-fill warning" id="transit-subway" style="width:65%"></div></div>
+        </div>
+        <div class="transport-card">
+          <div class="transport-icon">🚌</div>
+          <div class="transport-name">Shuttle Bus A</div>
+          <div class="transport-status">🟢 On Schedule · Route 7</div>
+          <div class="transport-wait" id="wait-bus">4</div>
+          <div class="transport-wait-label">min avg wait</div>
+          <div class="spacer-sm"></div>
+          <div class="progress-bar"><div class="progress-fill green" id="transit-bus" style="width:40%"></div></div>
+        </div>
+        <div class="transport-card">
+          <div class="transport-icon">🚗</div>
+          <div class="transport-name">Rideshare Zone</div>
+          <div class="transport-status">🔴 High Demand · Surge Pricing</div>
+          <div class="transport-wait" id="wait-ride">18</div>
+          <div class="transport-wait-label">min avg wait</div>
+          <div class="spacer-sm"></div>
+          <div class="progress-bar"><div class="progress-fill danger" id="transit-ride" style="width:90%"></div></div>
+        </div>
+        <div class="transport-card">
+          <div class="transport-icon">🅿️</div>
+          <div class="transport-name">Parking Lots</div>
+          <div class="transport-status">🟡 Lots B &amp; C Full</div>
+          <div class="transport-wait" id="wait-park">12</div>
+          <div class="transport-wait-label">min to find spot</div>
+          <div class="spacer-sm"></div>
+          <div class="progress-bar"><div class="progress-fill warning" id="transit-park" style="width:78%"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FAN EXPERIENCE ═══════════════════════════════════════ -->
+  <section id="section-fan" class="section" aria-label="Fan Experience Hub">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Personalized For You</div>
+        <h2 class="section-title">Fan Experience Hub</h2>
+        <p class="section-subtitle">Your match schedule, live scores, fan zone and more</p>
+      </div>
+      <div class="section-badge"><span id="userRoleDisplay">⚽ Fan Mode</span></div>
+    </div>
+
+    <!-- Live Matches -->
+    <div class="grid-3 mb-md">
+      <div class="match-card">
+        <div class="match-teams">
+          <div style="text-align:center;">
+            <span class="team-flag">🇺🇸</span>
+            <div class="team-name">USA</div>
+          </div>
+          <div class="match-vs">
+            <div class="match-score">2 — 1</div>
+            <div class="match-time-badge">⚽ 68'</div>
+          </div>
+          <div style="text-align:center;">
+            <span class="team-flag">🇲🇽</span>
+            <div class="team-name">Mexico</div>
+          </div>
+        </div>
+        <div class="match-info">
+          <div class="match-info-item">🏟️ MetLife Stadium, NJ</div>
+          <div class="match-info-item">👤 Your Seat: Sec 113 Row F</div>
+          <div class="match-info-item">📅 Group Stage · Match 38</div>
+        </div>
+      </div>
+      <div class="match-card">
+        <div class="match-teams">
+          <div style="text-align:center;">
+            <span class="team-flag">🇧🇷</span>
+            <div class="team-name">Brazil</div>
+          </div>
+          <div class="match-vs">
+            <div class="match-score">0 — 0</div>
+            <div class="match-time-badge" style="background:var(--info-dim);border-color:rgba(59,130,246,0.3);color:var(--info);">🕐 19:30</div>
+          </div>
+          <div style="text-align:center;">
+            <span class="team-flag">🇦🇷</span>
+            <div class="team-name">Argentina</div>
+          </div>
+        </div>
+        <div class="match-info">
+          <div class="match-info-item">🏟️ AT&amp;T Stadium, Dallas</div>
+          <div class="match-info-item">📅 Group Stage · Match 39</div>
+        </div>
+      </div>
+      <div class="match-card">
+        <div class="match-teams">
+          <div style="text-align:center;">
+            <span class="team-flag">🇩🇪</span>
+            <div class="team-name">Germany</div>
+          </div>
+          <div class="match-vs">
+            <div class="match-score">3 — 2</div>
+            <div class="match-time-badge">⚽ FT</div>
+          </div>
+          <div style="text-align:center;">
+            <span class="team-flag">🇫🇷</span>
+            <div class="team-name">France</div>
+          </div>
+        </div>
+        <div class="match-info">
+          <div class="match-info-item">🏟️ Rose Bowl, LA</div>
+          <div class="match-info-item">📅 Group Stage · Match 37</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-21 mb-md">
+      <!-- Social Sentiment -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-icon red">💬</span> Live Social Sentiment</div>
+          <span class="badge green"><div class="live-indicator"></div> Real-Time</span>
+        </div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">Analyzing 142,000+ posts/min across social platforms</div>
+        <div class="sentiment-bar" id="sentimentBar">
+          <div class="sentiment-segment" style="width:68%;background:var(--success);"></div>
+          <div class="sentiment-segment" style="width:18%;background:var(--text-muted);"></div>
+          <div class="sentiment-segment" style="width:14%;background:var(--danger);"></div>
+        </div>
+        <div class="flex-between mt-sm" style="font-size:12px;">
+          <span style="color:var(--success)">😊 68% Positive</span>
+          <span style="color:var(--text-muted)">😐 18% Neutral</span>
+          <span style="color:var(--danger)">😠 14% Negative</span>
+        </div>
+        <div class="divider"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="socialFeed">
+          <div class="eco-tip" style="background:var(--glass-bg);border-color:var(--glass-border);">
+            <div class="eco-tip-icon">🔥</div>
+            <div class="eco-tip-text"><strong>#USAMEX</strong> is trending #1 globally — 2.4M tweets in last hour. Fan energy score: <strong style="color:var(--gold)">9.4/10</strong></div>
+          </div>
+          <div class="eco-tip" style="background:var(--glass-bg);border-color:var(--glass-border);">
+            <div class="eco-tip-icon">⚽</div>
+            <div class="eco-tip-text">AI Detected: <strong>Goal celebration surge</strong> at MetLife Stadium section 113–118. Noise level 127dB recorded.</div>
+          </div>
+          <div class="eco-tip" style="background:var(--glass-bg);border-color:var(--glass-border);">
+            <div class="eco-tip-icon">📸</div>
+            <div class="eco-tip-text">88,000 photos uploaded from MetLife Stadium today. AI auto-tagged <strong>23,400 fan memories</strong>.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fan Quick Actions -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon gold">⚡</span> Quick Actions</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <button class="access-service-card" onclick="selectZone('food')" id="findFoodBtn">
+              <div class="access-service-icon">🍔</div>
+              <div class="access-service-name">Order Food</div>
+              <div class="access-service-desc">AI-picks shortest queue</div>
+            </button>
+            <button class="access-service-card" onclick="showSection('stadium')" id="findSeatBtn">
+              <div class="access-service-icon">🗺️</div>
+              <div class="access-service-name">Find My Seat</div>
+              <div class="access-service-desc">AR-guided navigation</div>
+            </button>
+            <button class="access-service-card" onclick="toggleChatbot()" id="translateBtn">
+              <div class="access-service-icon">🌍</div>
+              <div class="access-service-name">Translate</div>
+              <div class="access-service-desc">30+ languages</div>
+            </button>
+            <button class="access-service-card" id="arPhotoBtn">
+              <div class="access-service-icon">📸</div>
+              <div class="access-service-name">AR Photo</div>
+              <div class="access-service-desc">Trophy Room & AR Booth</div>
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon purple">🏆</span> Your Match Ticket</div>
+          <div style="background:linear-gradient(135deg,rgba(232,0,28,0.15),rgba(255,215,0,0.1));border:1px dashed rgba(255,215,0,0.3);border-radius:12px;padding:16px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🎫</div>
+            <div style="font-family:var(--font-heading);font-size:16px;font-weight:700;">USA vs Mexico</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">MetLife Stadium · Section 113 · Row F · Seat 22</div>
+            <div style="margin-top:12px;font-size:28px;letter-spacing:8px;font-family:monospace;color:var(--gold);">▓▓▓▓▓▓▓<br>▓ QR ▓<br>▓▓▓▓▓▓▓</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">Ticket ID: WC26-MS-113-F22 · Verified ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ ACCESSIBILITY ════════════════════════════════════════ -->
+  <section id="section-accessibility" class="section" aria-label="Accessibility Support Center">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Inclusive Experience</div>
+        <h2 class="section-title">Accessibility Support</h2>
+        <p class="section-subtitle">AI-powered inclusive services for every fan</p>
+      </div>
+      <div class="section-badge">🟢 All Services Active</div>
+    </div>
+
+    <div class="grid-12 mb-md">
+      <div>
+        <div class="access-service-grid mb-md">
+          <div class="access-service-card" id="wheelchairBtn" onclick="requestService('Wheelchair Assistance')">
+            <div class="access-service-icon">♿</div>
+            <div class="access-service-name">Wheelchair Assistance</div>
+            <div class="access-service-desc">Request a companion guide</div>
+            <div class="access-service-status available">Available · 2 min</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Sign Language Interpreter')">
+            <div class="access-service-icon">🤟</div>
+            <div class="access-service-name">Sign Language</div>
+            <div class="access-service-desc">AI-powered interpreter</div>
+            <div class="access-service-status available">Available · 1 min</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Audio Description')">
+            <div class="access-service-icon">🎧</div>
+            <div class="access-service-name">Audio Descriptions</div>
+            <div class="access-service-desc">Live AI narration in your language</div>
+            <div class="access-service-status available">Available Now</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Sensory-Friendly Zone')">
+            <div class="access-service-icon">🌿</div>
+            <div class="access-service-name">Sensory-Friendly Zone</div>
+            <div class="access-service-desc">Quiet areas with reduced stimuli</div>
+            <div class="access-service-status available">Open · Level 2</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Visual Assistance')">
+            <div class="access-service-icon">👁️</div>
+            <div class="access-service-name">Visual Assistance</div>
+            <div class="access-service-desc">AI guide for low-vision fans</div>
+            <div class="access-service-status busy">Busy · 5 min wait</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Medical Support')">
+            <div class="access-service-icon">💊</div>
+            <div class="access-service-name">Medical Support</div>
+            <div class="access-service-desc">First aid + paramedic on call</div>
+            <div class="access-service-status available">On Standby</div>
+          </div>
+        </div>
+        <div id="accessRequestPanel" style="display:none;" class="alert-banner success">
+          <div class="alert-icon">✅</div>
+          <div class="alert-content">
+            <div class="alert-title" id="accessRequestTitle">Service Requested</div>
+            <div class="alert-body" id="accessRequestBody">A staff member is on their way. Estimated arrival: 2 minutes.</div>
+          </div>
+          <div class="alert-dismiss" onclick="document.getElementById('accessRequestPanel').style.display='none'">✕</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon teal">🤖</span> AI Accessibility Assistant</div>
+          <div style="background:var(--teal-dim);border:1px solid rgba(0,212,170,0.2);border-radius:12px;padding:16px;margin-bottom:12px;">
+            <div style="font-size:13px;line-height:1.7;color:var(--text-secondary);">
+              <strong style="color:var(--teal)">Hi! I'm your AI Accessibility Companion.</strong><br>
+              I can help you navigate the stadium, request services, find quiet spaces, or connect you with sign language interpreters in real-time. Ask me anything!
+            </div>
+          </div>
+          <button class="btn-primary" style="width:100%;justify-content:center;" onclick="toggleChatbot()" id="openAccessChatBtn">
+            💬 Chat with AI Assistant
+          </button>
+        </div>
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon red">📍</span> Accessible Routes</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">All accessible routes are step-free and elevator-accessible</div>
+          <div class="volunteer-zone-list">
+            <div class="volunteer-zone-item">
+              <div class="volunteer-dot" style="background:var(--info)"></div>
+              <div class="volunteer-zone-name">Gate B → Section 113 (Accessible)</div>
+              <div style="font-size:11px;color:var(--info);">4 min</div>
+            </div>
+            <div class="volunteer-zone-item">
+              <div class="volunteer-dot" style="background:var(--info)"></div>
+              <div class="volunteer-zone-name">West Entrance → VIP Accessible</div>
+              <div style="font-size:11px;color:var(--info);">2 min</div>
+            </div>
+            <div class="volunteer-zone-item">
+              <div class="volunteer-dot" style="background:var(--success)"></div>
+              <div class="volunteer-zone-name">Parking Lot A → Elevator Bank</div>
+              <div style="font-size:11px;color:var(--success);">6 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ SUSTAINABILITY ═══════════════════════════════════════ -->
+  <section id="section-sustainability" class="section" aria-label="Sustainability Insights">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Green World Cup</div>
+        <h2 class="section-title">Sustainability Insights</h2>
+        <p class="section-subtitle">Real-time environmental metrics for the world's most sustainable World Cup</p>
+      </div>
+      <div class="section-badge">🌍 Carbon Neutral Goal 2026</div>
+    </div>
+
+    <!-- Ring Gauges -->
+    <div class="sustain-ring-grid mb-md">
+      <div class="sustain-ring-card">
+        <div class="sustain-ring-wrap">
+          <canvas id="ring-carbon" width="100" height="100" class="sustain-ring-canvas"></canvas>
+          <div class="sustain-ring-text text-gradient-teal">-42%</div>
+        </div>
+        <div class="sustain-ring-title">Carbon Reduction</div>
+        <div class="sustain-ring-sub">vs. 2022 Qatar WC baseline</div>
+      </div>
+      <div class="sustain-ring-card">
+        <div class="sustain-ring-wrap">
+          <canvas id="ring-solar" width="100" height="100" class="sustain-ring-canvas"></canvas>
+          <div class="sustain-ring-text text-gradient-gold">62%</div>
+        </div>
+        <div class="sustain-ring-title">Renewable Energy</div>
+        <div class="sustain-ring-sub">Solar + Wind combined</div>
+      </div>
+      <div class="sustain-ring-card">
+        <div class="sustain-ring-wrap">
+          <canvas id="ring-recycle" width="100" height="100" class="sustain-ring-canvas"></canvas>
+          <div class="sustain-ring-text text-gradient-teal">78%</div>
+        </div>
+        <div class="sustain-ring-title">Waste Recycled</div>
+        <div class="sustain-ring-sub">4.2T diverted from landfill today</div>
+      </div>
+      <div class="sustain-ring-card">
+        <div class="sustain-ring-wrap">
+          <canvas id="ring-water" width="100" height="100" class="sustain-ring-canvas"></canvas>
+          <div class="sustain-ring-text" style="color:var(--info)">-31%</div>
+        </div>
+        <div class="sustain-ring-title">Water Savings</div>
+        <div class="sustain-ring-sub">vs. historical match average</div>
+      </div>
+    </div>
+
+    <!-- Carbon Offset Progress -->
+    <div class="card mb-md">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon teal">🌳</span> Carbon Offset Progress — Tournament Total</div>
+        <span class="badge teal">72% of Goal</span>
+      </div>
+      <div style="margin-bottom:10px;font-size:13px;color:var(--text-secondary);">
+        248,000 tonnes offset of 345,000 tonne target — 28 match days remaining
+      </div>
+      <div class="progress-bar" style="height:12px;margin-bottom:10px;">
+        <div class="progress-fill teal" style="width:72%"></div>
+      </div>
+      <div class="flex-between" style="font-size:12px;">
+        <span style="color:var(--teal)">🌿 248,000T Offset</span>
+        <span style="color:var(--text-muted)">Target: 345,000T</span>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-md">
+      <!-- Energy Breakdown -->
+      <div class="card">
+        <div class="card-title mb-md"><span class="card-icon gold">⚡</span> Energy Sources — Live</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>☀️ Solar</span><span class="text-gradient-gold" style="font-weight:700;">38%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill gold" style="width:38%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>💨 Wind</span><span class="text-gradient-teal" style="font-weight:700;">24%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill teal" style="width:24%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>🔋 Grid</span><span style="font-weight:700;color:var(--text-secondary);">28%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:28%;background:var(--text-muted)"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>🛢️ Generator</span><span class="text-gradient-red" style="font-weight:700;">10%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill red" style="width:10%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Eco Tips -->
+      <div class="card">
+        <div class="card-title mb-md"><span class="card-icon teal">🤖</span> AI Sustainability Tips</div>
+        <div style="display:flex;flex-direction:column;gap:10px;" id="ecoTipsList">
+          <div class="eco-tip">
+            <div class="eco-tip-icon">🚌</div>
+            <div class="eco-tip-text">Taking public transport today reduces your carbon footprint by <strong>2.4kg CO₂</strong> versus driving. 78% of fans are already using transit!</div>
+          </div>
+          <div class="eco-tip">
+            <div class="eco-tip-icon">♻️</div>
+            <div class="eco-tip-text">Yellow bins = recyclables, Blue bins = compostable. AI scanning confirms <strong>92% sorting accuracy</strong> at this stadium today.</div>
+          </div>
+          <div class="eco-tip">
+            <div class="eco-tip-icon">💧</div>
+            <div class="eco-tip-text">Refill stations on Levels 2 &amp; 3 provide <strong>free filtered water</strong>. 14,200 plastic bottles saved at this venue today.</div>
+          </div>
+        </div>
+        <button class="btn-secondary" style="width:100%;justify-content:center;margin-top:12px;" onclick="refreshEcoTips()" id="refreshEcoBtn">🔄 Generate New Tips</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ ANALYTICS ════════════════════════════════════════════ -->
+  <section id="section-analytics" class="section" aria-label="Predictive Analytics">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">AI-Powered Predictions</div>
+        <h2 class="section-title">Predictive Analytics</h2>
+        <p class="section-subtitle">ML-powered forecasting for crowd flow, transport demand &amp; operations</p>
+      </div>
+      <div class="section-badge"><div class="live-indicator"></div> Updating Every 30s</div>
+    </div>
+
+    <!-- KPIs Row -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;">
+      <div class="stat-card red">
+        <div class="stat-card-header"><span class="stat-card-icon">👥</span><span class="stat-card-change up">▲ 4%</span></div>
+        <div class="stat-card-value">74,230</div>
+        <div class="stat-card-label">Attendance Forecast</div>
+      </div>
+      <div class="stat-card gold">
+        <div class="stat-card-header"><span class="stat-card-icon">⏱️</span><span class="stat-card-change down">▼ 2min</span></div>
+        <div class="stat-card-value">6 min</div>
+        <div class="stat-card-label">Avg Gate Queue (pred.)</div>
+      </div>
+      <div class="stat-card teal">
+        <div class="stat-card-header"><span class="stat-card-icon">🚇</span><span class="stat-card-change up">▲ 12%</span></div>
+        <div class="stat-card-value">48,000</div>
+        <div class="stat-card-label">Transit Riders (pred.)</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-card-header"><span class="stat-card-icon">🍔</span><span class="stat-card-change up">▲ 8%</span></div>
+        <div class="stat-card-value">$2.4M</div>
+        <div class="stat-card-label">F&amp;B Revenue (pred.)</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-card-header"><span class="stat-card-icon">⭐</span><span class="stat-card-change up">▲ 0.2</span></div>
+        <div class="stat-card-value">4.7</div>
+        <div class="stat-card-label">Satisfaction Score (pred.)</div>
+      </div>
+    </div>
+
+    <!-- Main Analytics Chart -->
+    <div class="analytics-chart-card mb-md">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon red">📈</span> Match-Day Crowd Prediction — Today vs Historical Average</div>
+        <div style="display:flex;gap:12px;font-size:12px;align-items:center;">
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:var(--fifa-red);display:inline-block;border-radius:2px;"></span> Today (AI Predicted)</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:var(--teal);display:inline-block;border-radius:2px;border-style:dashed;"></span> Historical Avg</span>
+        </div>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="analyticsChart" width="900" height="260" style="width:100%;height:260px;display:block;"></canvas>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Transport Forecast -->
+      <div class="analytics-chart-card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-icon gold">🚇</span> Transport Demand Forecast</div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="transportForecastChart" width="400" height="200" style="width:100%;height:200px;display:block;"></canvas>
+        </div>
+      </div>
+      <!-- Queue Estimator -->
+      <div class="card">
+        <div class="card-title mb-md"><span class="card-icon teal">⏱️</span> Gate Queue Time Estimator</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate A</span><span class="badge danger">12 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill danger" style="width:90%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate B</span><span class="badge warning">7 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill warning" style="width:60%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate C</span><span class="badge danger">14 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill danger" style="width:95%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate D</span><span class="badge green">3 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill green" style="width:28%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate E</span><span class="badge green">2 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill green" style="width:18%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate F</span><span class="badge teal">4 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill teal" style="width:35%"></div></div>
+          </div>
+        </div>
+        <div class="alert-banner info mt-md" style="margin-bottom:0;">
+          <div class="alert-icon">🤖</div>
+          <div class="alert-content">
+            <div class="alert-title">AI Recommendation</div>
+            <div class="alert-body">Direct 35% of incoming fans to Gates D-F to balance queue times within ±2 min across all gates.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ COMMAND CENTER ═══════════════════════════════════════ -->
+  <section id="section-command" class="section" aria-label="Operational Command Center">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Staff &amp; Organizer View</div>
+        <h2 class="section-title">Operational Command Center</h2>
+        <p class="section-subtitle">AI-powered incident management, volunteer deployment &amp; real-time KPIs</p>
+      </div>
+      <div class="section-badge"><div class="live-indicator"></div> Ops Mode Active</div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-grid mb-md">
+      <div class="kpi-card">
+        <div style="font-size:22px;">👥</div>
+        <div class="kpi-value text-gradient-gold" id="kpiAttend">74,230</div>
+        <div class="kpi-label">Attendance</div>
+      </div>
+      <div class="kpi-card">
+        <div style="font-size:22px;">⭐</div>
+        <div class="kpi-value" style="color:var(--success)">4.7/5</div>
+        <div class="kpi-label">Satisfaction</div>
+      </div>
+      <div class="kpi-card">
+        <div style="font-size:22px;">🚨</div>
+        <div class="kpi-value" id="kpiIncidents" style="color:var(--danger)">3</div>
+        <div class="kpi-label">Active Incidents</div>
+      </div>
+      <div class="kpi-card">
+        <div style="font-size:22px;">🦺</div>
+        <div class="kpi-value" style="color:var(--teal)">342</div>
+        <div class="kpi-label">Volunteers Active</div>
+      </div>
+      <div class="kpi-card">
+        <div style="font-size:22px;">🤖</div>
+        <div class="kpi-value" style="color:var(--purple)">97%</div>
+        <div class="kpi-label">AI Decision Rate</div>
+      </div>
+    </div>
+
+    <div class="grid-21 mb-md">
+      <!-- Incident Panel -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-icon red">🚨</span> Active Incidents</div>
+          <button class="btn-secondary" style="padding:6px 14px;font-size:12px;" onclick="addIncident()" id="addIncidentBtn">+ Report</button>
+        </div>
+        <div class="incident-list" id="incidentList">
+          <div class="incident-item high">
+            <div class="incident-icon">⚠️</div>
+            <div class="incident-body">
+              <div class="incident-title">North Stand Gate C — Overcrowding</div>
+              <div class="incident-meta">Zone N-C · 94% capacity · AI dispatched 6 staff</div>
+            </div>
+            <div>
+              <div class="incident-time">2 min ago</div>
+              <span class="badge danger">HIGH</span>
+            </div>
+          </div>
+          <div class="incident-item medium">
+            <div class="incident-icon">🚑</div>
+            <div class="incident-body">
+              <div class="incident-title">Medical Assistance — Section 201</div>
+              <div class="incident-meta">Fan reported dizziness · Paramedic en route</div>
+            </div>
+            <div>
+              <div class="incident-time">5 min ago</div>
+              <span class="badge warning">MED</span>
+            </div>
+          </div>
+          <div class="incident-item low">
+            <div class="incident-icon">🔧</div>
+            <div class="incident-body">
+              <div class="incident-title">Turnstile Malfunction — Gate B-7</div>
+              <div class="incident-meta">2 lanes down · Maintenance dispatched</div>
+            </div>
+            <div>
+              <div class="incident-time">12 min ago</div>
+              <span class="badge info">LOW</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <!-- Emergency Button -->
+        <button class="emergency-btn" onclick="triggerEmergency()" id="emergencyBtn">
+          🚨 EMERGENCY BROADCAST
+        </button>
+        <!-- Weather -->
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon gold">🌤️</span> Weather &amp; Conditions</div>
+          <div style="font-size:36px;text-align:center;margin-bottom:8px;">⛅</div>
+          <div style="text-align:center;font-family:var(--font-heading);font-size:28px;font-weight:800;">72°F</div>
+          <div style="text-align:center;font-size:12px;color:var(--text-secondary);margin-top:4px;">Partly Cloudy · Humidity 68% · Wind 12mph NW</div>
+          <div class="alert-banner info mt-md" style="margin-bottom:0;padding:10px 14px;">
+            <div class="alert-icon">⚡</div>
+            <div class="alert-content">
+              <div class="alert-body">AI: No weather disruptions predicted for next 4 hours. Roof deployment not required.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volunteer Deployment -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon teal">🦺</span> Volunteer Deployment Map</div>
+        <span class="badge green">342 Active</span>
+      </div>
+      <div class="volunteer-zone-list" id="volunteerList">
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#EF4444"></div>
+          <div class="volunteer-zone-name">North Stand — Gate A/B/C (Priority)</div>
+          <div><div class="volunteer-count">68</div><div class="volunteer-needed">Need: 80</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#22C55E"></div>
+          <div class="volunteer-zone-name">South Stand — Gate D/E/F</div>
+          <div><div class="volunteer-count">52</div><div class="volunteer-needed">Need: 50 ✓</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#F59E0B"></div>
+          <div class="volunteer-zone-name">East Stand — Gate G/H</div>
+          <div><div class="volunteer-count">44</div><div class="volunteer-needed">Need: 45</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#00D4AA"></div>
+          <div class="volunteer-zone-name">West VIP / Press Zone</div>
+          <div><div class="volunteer-count">38</div><div class="volunteer-needed">Need: 35 ✓</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#3B82F6"></div>
+          <div class="volunteer-zone-name">Accessibility Support Team</div>
+          <div><div class="volunteer-count">24</div><div class="volunteer-needed">Need: 24 ✓</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#7C3AED"></div>
+          <div class="volunteer-zone-name">Food Courts (1–4)</div>
+          <div><div class="volunteer-count">116</div><div class="volunteer-needed">Need: 120</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ AI CHATBOT ════════════════════════════════════════════════ -->
+<button class="chatbot-fab" onclick="toggleChatbot()" aria-label="Open AI Assistant" id="chatbotFab">🤖</button>
+<div class="chatbot-panel" id="chatbotPanel" role="dialog" aria-label="GoalIQ AI Assistant">
+  <div class="chatbot-header">
+    <div class="chatbot-avatar">🤖</div>
+    <div class="chatbot-info">
+      <div class="chatbot-name">GoalIQ AI</div>
+      <div class="chatbot-status">● Online · 30+ languages</div>
+    </div>
+    <select class="chatbot-lang-select" id="chatLangSelect" onchange="changeLanguage(this.value)">
+      <option value="en">🇺🇸 English</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="pt">🇧🇷 Português</option>
+      <option value="de">🇩🇪 Deutsch</option>
+      <option value="ar">🇸🇦 العربية</option>
+      <option value="zh">🇨🇳 中文</option>
+      <option value="ja">🇯🇵 日本語</option>
+      <option value="ko">🇰🇷 한국어</option>
+      <option value="hi">🇮🇳 हिन्दी</option>
+    </select>
+  </div>
+  <div class="chatbot-messages" id="chatMessages">
+    <!-- Welcome message injected via JS -->
+  </div>
+  <div class="chatbot-input-area">
+    <textarea class="chatbot-input" id="chatInput" placeholder="Ask anything… 'Find my seat', 'Nearest restroom'…" rows="1" onkeydown="handleChatKey(event)"></textarea>
+    <button class="chatbot-send" onclick="sendChatMessage()" aria-label="Send message">➤</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   FIFA WORLD CUP 2026 — GoalIQ AI PLATFORM
+   app.js — All interactivity, simulations, AI chatbot, charts
+   ═══════════════════════════════════════════════════════════════ */
+
+'use strict';
+
+/* ─── STATE ──────────────────────────────────────────────────── */
+const STATE = {
+  currentSection: 'hero',
+  currentRole: 'fan',
+  chatOpen: false,
+  chatLanguage: 'en',
+  crowdData: { north: 94, south: 61, east: 78, west: 45 },
+  transportData: { subway: 8, bus: 4, ride: 18, park: 12 },
+  nextMatchTime: new Date(Date.now() + 3 * 60 * 60 * 1000 + 24 * 60 * 1000 + 38 * 1000),
+  notifQueue: [],
+  incidentCount: 3,
+  attendanceTarget: 74230,
+  currentAttendance: 0,
+};
+
+/* ─── TICKER DATA ────────────────────────────────────────────── */
+const TICKER_MATCHES = [
+  { home: '🇺🇸 USA', score: '2–1', away: 'Mexico 🇲🇽', status: 'LIVE 68\'' },
+  { home: '🇩🇪 Germany', score: '3–2', away: 'France 🇫🇷', status: 'FT' },
+  { home: '🇧🇷 Brazil', score: '0–0', away: 'Argentina 🇦🇷', status: 'Tonight 19:30' },
+  { home: '🇪🇸 Spain', score: '1–0', away: 'Portugal 🇵🇹', status: 'LIVE 42\'' },
+  { home: '🇬🇧 England', score: '2–2', away: 'Italy 🇮🇹', status: 'LIVE 81\'' },
+  { home: '🇳🇱 Netherlands', score: '4–1', away: 'Belgium 🇧🇪', status: 'FT' },
+  { home: '🇯🇵 Japan', score: '1–2', away: 'South Korea 🇰🇷', status: 'LIVE 55\'' },
+  { home: '🇲🇦 Morocco', score: '2–0', away: 'Senegal 🇸🇳', status: 'Tomorrow 15:00' },
+];
+
+/* ─── AI RESPONSES ───────────────────────────────────────────── */
+const AI_RESPONSES = {
+  en: {
+    welcome: "Hello! I'm GoalIQ, your AI assistant for FIFA World Cup 2026 🏆 I can help you with navigation, match info, transport, accessibility services, and more. What can I help you with?",
+    quickReplies: ['Find my seat 🗺️', 'Nearest restroom 🚻', 'Food courts 🍔', 'Transport options 🚇', 'Accessibility help ♿'],
+    seat: "Your seat is **Section 113, Row F, Seat 22** in the North Stand. 🎫\n\nTo get there from Gate B:\n1. Enter Gate B (est. wait: 8 min — consider Gate D instead, only 2 min wait!)\n2. Take elevator to Level 3\n3. Follow blue signage to Section 113\n\nEstimated walk time: **4 minutes** from Gate B.\n\n🤖 *AI Tip: Gate D (South) is currently less congested!*",
+    restroom: "Nearest restrooms to your seat (Section 113):\n\n🚻 **Level 3, Corridor C** — 90m away (closest)\n🚻 **Level 2, Gate B area** — 150m away\n♿ **Accessible restroom** — Level 3, near elevator bank\n\nAll restrooms have real-time queue tracking. Current wait: ~2 minutes.",
+    food: "🍔 Food options near you:\n\n**Food Court 1 (North Level 2)** — 11 min queue ❌\n**Food Court 2 (South Level 1)** — 3 min queue ✅ *AI Recommended*\n**Concession Stand C-5** — 5 min · Hot dogs, pretzels, drinks\n**Premium Lounge L3** — VIP only · no queue\n\n💡 Order via the app to skip the queue entirely!",
+    transport: "🚇 Current transport options from MetLife Stadium:\n\n**Subway Line 4** — 8 min wait 🟡 (minor delays)\n**Shuttle Bus A** — 4 min wait ✅ (on schedule)\n**Rideshare Zone** — 18 min wait 🔴 (high demand, surge pricing)\n**Parking** — Lots B & C full, Lot D has spaces 🟡\n\n🤖 *AI recommends Shuttle Bus A for fastest exit!*",
+    access: "♿ Accessibility services available right now:\n\n• Wheelchair Assistance: **2 min wait** ✅\n• Sign Language Interpreter: **Available now** ✅  \n• Audio Description: **Streaming now** ✅\n• Sensory-Friendly Zone: **Open on Level 2** ✅\n\nShall I request any of these services for you? Just say 'request wheelchair' or similar!",
+    default: "I'm checking that for you... 🤔\n\nBased on real-time data from GoalIQ sensors across MetLife Stadium, here's what I found:\n\n• **Stadium capacity**: 78% full (74,230 fans)\n• **Next match event**: Halftime in ~17 minutes\n• **AI Alert**: North Stand congested — Gate D recommended\n\nIs there something more specific I can help you with?"
+  },
+  es: {
+    welcome: "¡Hola! Soy GoalIQ, tu asistente de IA para la Copa Mundial FIFA 2026 🏆 Puedo ayudarte con navegación, información de partidos, transporte y más. ¿En qué puedo ayudarte?",
+    quickReplies: ['Encontrar mi asiento 🗺️', 'Baño más cercano 🚻', 'Comida 🍔', 'Transporte 🚇', 'Accesibilidad ♿'],
+    default: "Estoy revisando eso para ti... 🤔\n\nSegún los datos en tiempo real del Estadio MetLife:\n\n• **Capacidad**: 78% lleno (74,230 aficionados)\n• **Próximo evento**: Medio tiempo en ~17 minutos\n• **Alerta IA**: Norte congestionado — se recomienda Puerta D\n\n¿En qué más puedo ayudarte?"
+  },
+  fr: {
+    welcome: "Bonjour! Je suis GoalIQ, votre assistant IA pour la Coupe du Monde FIFA 2026 🏆 Comment puis-je vous aider?",
+    quickReplies: ['Trouver mon siège 🗺️', 'Toilettes 🚻', 'Restauration 🍔', 'Transport 🚇', 'Accessibilité ♿'],
+    default: "Je vérifie cela pour vous... 🤔\n\nSelon les données en temps réel du Stade MetLife:\n\n• **Capacité**: 78% (74 230 fans)\n• **Alerte IA**: Tribune Nord encombrée — utilisez la Porte D\n\nQue puis-je faire d'autre pour vous?"
+  },
+  pt: {
+    welcome: "Olá! Sou GoalIQ, seu assistente de IA para a Copa do Mundo FIFA 2026 🏆 Como posso ajudar você?",
+    quickReplies: ['Encontrar meu assento 🗺️', 'Banheiro 🚻', 'Comida 🍔', 'Transporte 🚇', 'Acessibilidade ♿'],
+    default: "Estou verificando isso para você... 🤔\n\nCom base nos dados em tempo real do MetLife Stadium:\n\n• **Capacidade**: 78% (74.230 fãs)\n• **Alerta IA**: Stand Norte congestionado — use o Portão D\n\nPosso ajudar com mais alguma coisa?"
+  },
+  de: {
+    welcome: "Hallo! Ich bin GoalIQ, Ihr KI-Assistent für die FIFA Weltmeisterschaft 2026 🏆 Wie kann ich Ihnen helfen?",
+    quickReplies: ['Meinen Platz finden 🗺️', 'Toiletten 🚻', 'Essen 🍔', 'Transport 🚇', 'Barrierefreiheit ♿'],
+    default: "Ich überprüfe das für Sie... 🤔\n\nBasierend auf Echtzeit-Daten des MetLife Stadions:\n\n• **Kapazität**: 78% (74.230 Fans)\n• **KI-Warnung**: Nordtribüne überfüllt — Eingang D empfohlen\n\nKann ich Ihnen sonst noch helfen?"
+  },
+  ar: {
+    welcome: "مرحباً! أنا GoalIQ، مساعدك الذكي لكأس العالم FIFA 2026 🏆 كيف يمكنني مساعدتك؟",
+    quickReplies: ['إيجاد مقعدي 🗺️', 'دورة المياه 🚻', 'الطعام 🍔', 'المواصلات 🚇', 'إمكانية الوصول ♿'],
+    default: "أتحقق من ذلك الآن... 🤔\n\nبناءً على البيانات اللحظية:\n\n• **الطاقة**: 78% ممتلئ (74,230 مشجع)\n• **تنبيه الذكاء الاصطناعي**: المدرج الشمالي مزدحم — يُنصح باستخدام البوابة D\n\nهل يمكنني مساعدتك في شيء آخر؟"
+  },
+  zh: {
+    welcome: "你好！我是GoalIQ，2026年FIFA世界杯AI助手 🏆 我可以帮助您导航、查询赛事信息、交通选择等。有什么可以帮助您的？",
+    quickReplies: ['找到我的座位 🗺️', '最近的卫生间 🚻', '餐厅 🍔', '交通 🚇', '无障碍服务 ♿'],
+    default: "正在为您查询... 🤔\n\n根据MetLife体育场实时数据：\n\n• **上座率**：78%（74,230名球迷）\n• **AI提醒**：北看台拥挤 — 建议使用D号入口\n\n还有什么可以帮到您？"
+  },
+  ja: {
+    welcome: "こんにちは！私はGoalIQ、FIFA ワールドカップ2026のAIアシスタントです 🏆 ナビゲーション、試合情報、交通など何でもお聞きください！",
+    quickReplies: ['席を探す 🗺️', 'トイレ 🚻', 'フード 🍔', '交通 🚇', 'アクセシビリティ ♿'],
+    default: "確認しています... 🤔\n\nメットライフスタジアムのリアルタイムデータ：\n\n• **収容率**：78%（74,230名）\n• **AIアラート**：北スタンド混雑 — ゲートD推奨\n\n他にご質問はありますか？"
+  },
+  ko: {
+    welcome: "안녕하세요! 저는 GoalIQ, FIFA 월드컵 2026 AI 어시스턴트입니다 🏆 무엇이든 도와드릴게요!",
+    quickReplies: ['좌석 찾기 🗺️', '화장실 🚻', '음식점 🍔', '교통 🚇', '접근성 ♿'],
+    default: "확인 중입니다... 🤔\n\n메트라이프 스타디움 실시간 데이터:\n\n• **수용률**: 78% (74,230명)\n• **AI 알림**: 북쪽 스탠드 혼잡 — D게이트 추천\n\n다른 도움이 필요하신가요?"
+  },
+  hi: {
+    welcome: "नमस्ते! मैं GoalIQ हूं, FIFA विश्व कप 2026 के लिए आपका AI सहायक 🏆 मैं नेविगेशन, मैच जानकारी, परिवहन और अधिक में मदद कर सकता हूं!",
+    quickReplies: ['मेरी सीट खोजें 🗺️', 'शौचालय 🚻', 'खाना 🍔', 'परिवहन 🚇', 'पहुंच सहायता ♿'],
+    default: "मैं आपके लिए जांच कर रहा हूं... 🤔\n\nMetLife Stadium के रियल-टाइम डेटा के अनुसार:\n\n• **क्षमता**: 78% भरा (74,230 प्रशंसक)\n• **AI अलर्ट**: उत्तरी स्टैंड भीड़भाड़ — Gate D की सिफारिश\n\nमैं और कैसे मदद कर सकता हूं?"
+  }
+};
+
+const ECO_TIPS = [
+  { icon: '🚌', text: '<strong>Take a shuttle!</strong> Stadium shuttles tonight run every 8 minutes and save an avg of <strong>3.1 kg CO₂</strong> per fan compared to driving.' },
+  { icon: '🌱', text: '<strong>Plant a tree!</strong> Every fan today is contributing to the GoalIQ Forest Initiative — <strong>74,230 trees</strong> to be planted after this match.' },
+  { icon: '♻️', text: 'Yellow bins are for <strong>recyclables</strong>, blue for <strong>compost</strong>. AI-sorting stations at every exit help achieve our <strong>90% diversion goal</strong>.' },
+  { icon: '💡', text: 'The stadium\'s <strong>LED lighting system</strong> uses 60% less energy than traditional fixtures — saving 240,000 kWh per match night.' },
+  { icon: '💧', text: 'Refill stations are on every level. Today, fans have already prevented <strong>14,200 single-use plastic bottles</strong> from entering the waste stream.' },
+  { icon: '🌞', text: 'MetLife Stadium\'s <strong>solar canopy</strong> generated 1.8 MWh this afternoon — enough to power 600 homes for a day!' },
+  { icon: '🍃', text: 'All food vendors use <strong>compostable packaging</strong> today. The carbon saved equals driving a car <strong>18,400 fewer miles</strong>.' },
+];
+
+const NOTIFICATIONS = [
+  { type: 'warning', icon: '⚠️', title: 'North Stand Congestion', msg: 'Gate C at 94% capacity. AI redirecting fans to Gate D.', delay: 6000 },
+  { type: 'info', icon: '⚽', title: 'Goal Alert!', msg: 'USA scores at minute 68! MetLife Stadium erupts!', delay: 14000 },
+  { type: 'success', icon: '🚇', title: 'Transport Update', msg: 'Shuttle Bus A now running every 5 minutes. 4 min wait.', delay: 22000 },
+  { type: 'critical', icon: '🚨', title: 'AI Crowd Alert', msg: 'Halftime surge predicted in 14 min. 6 extra staff deployed.', delay: 32000 },
+  { type: 'info', icon: '🌱', title: 'Sustainability Win!', msg: '78% of fans today used public transport. New record!', delay: 42000 },
+  { type: 'warning', icon: '🔧', title: 'Maintenance Alert', msg: 'Turnstile B-7 under maintenance. 2 lanes restored shortly.', delay: 55000 },
+  { type: 'success', icon: '♿', title: 'Accessibility Service', msg: 'Wheelchair assistance requested at Gate D — en route (2 min).', delay: 68000 },
+];
+
+/* ─── ZONE DATA ──────────────────────────────────────────────── */
+const ZONE_DATA = {
+  north: { icon: '🔴', title: 'North Stand — Gates A, B, C', body: 'CONGESTED · 94% capacity · 12,680/13,500 fans · AI recommends entering via Gate D (South Stand, 61% capacity, 2 min wait)' },
+  south: { icon: '🟢', title: 'South Stand — Gates D, E, F', body: 'OPEN · 61% capacity · 8,235/13,500 fans · 2 min average entry wait · Nearest food court: Level 1 (3 min queue)' },
+  east:  { icon: '🟡', title: 'East Stand — Gates G, H', body: 'BUSY · 78% capacity · 10,530/13,500 fans · 5 min average entry wait · Premium matchday hospitality on Level 4' },
+  west:  { icon: '🟣', title: 'West Stand — VIP & Press', body: 'VIP ACCESS ONLY · 45% capacity · Credential scan required · Suite level above · Press box at Level 5' },
+  vip:   { icon: '⭐', title: 'VIP / Press Box', body: 'Restricted zone · Valid media/VIP credential required · Complimentary catering · Dedicated elevator access' },
+  food:  { icon: '🍔', title: 'Food Courts', body: 'Food Court 1 (North): 11 min wait · Food Court 2 (South): 3 min wait ✅ · AI recommends Food Court 2 today! · 22 vendor options' },
+  firstaid: { icon: '🏥', title: 'First Aid Stations', body: '2 stations: North Level 2 & South Level 2 · Open 24/7 · Paramedics on duty · AED defibrillators at all stations · Call 555-WC26 for emergencies' },
+  accessible: { icon: '♿', title: 'Accessible Zones', body: 'Step-free access available at all entry points · Dedicated seating in Section 113A, 201A · Elevator banks at Gates B, D, G · Request assistance via GoalIQ AI' },
+};
+
+/* ─── SECTION NAVIGATION ─────────────────────────────────────── */
+function showSection(name) {
+  // Hide all sections (hero is not a .section, handle separately)
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-hero').style.display = 'none';
+
+  if (name === 'hero') {
+    document.getElementById('section-hero').style.display = '';
+  } else {
+    const el = document.getElementById('section-' + name);
+    if (el) el.classList.add('active');
+  }
+
+  STATE.currentSection = name;
+  updateNavActive(name);
+
+  // Trigger chart renders on first show
+  if (name === 'crowd' && !STATE.crowdChartDrawn) {
+    setTimeout(() => { drawCrowdFlowChart(); STATE.crowdChartDrawn = true; }, 100);
+  }
+  if (name === 'analytics' && !STATE.analyticsChartDrawn) {
+    setTimeout(() => { drawAnalyticsChart(); drawTransportForecastChart(); STATE.analyticsChartDrawn = true; }, 100);
+  }
+  if (name === 'sustainability' && !STATE.sustainChartsDrawn) {
+    setTimeout(() => { drawRingGauges(); STATE.sustainChartsDrawn = true; }, 100);
+  }
+  if (name === 'crowd' && !STATE.gaugesDrawn) {
+    setTimeout(() => { drawCrowdGauges(); STATE.gaugesDrawn = true; }, 100);
+  }
+}
+
+function updateNavActive(name) {
+  document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('nav-' + name);
+  if (btn) btn.classList.add('active');
+}
+
+/* ─── ROLE SWITCHER ──────────────────────────────────────────── */
+function switchRole(role) {
+  STATE.currentRole = role;
+  document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('role-' + role).classList.add('active');
+
+  const roleDisplay = document.getElementById('userRoleDisplay');
+  if (roleDisplay) {
+    const labels = { fan: '⚽ Fan Mode', volunteer: '🦺 Volunteer Mode', staff: '👷 Staff Mode', organizer: '🛡️ Organizer Mode' };
+    roleDisplay.textContent = labels[role] || '⚽ Fan Mode';
+  }
+
+  // Auto-navigate to command center for staff/organizer
+  if ((role === 'staff' || role === 'organizer') && STATE.currentSection === 'hero') {
+    showNotification('info', '🛡️', `${role.charAt(0).toUpperCase() + role.slice(1)} Mode`, 'Command Center and full operational tools are now unlocked.');
+  }
+}
+
+/* ─── COUNTDOWN TIMER ────────────────────────────────────────── */
+function updateCountdown() {
+  const now = new Date();
+  const diff = Math.max(0, STATE.nextMatchTime - now);
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  const pad = n => String(n).padStart(2, '0');
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = pad(val); };
+  setEl('cd-hours', h);
+  setEl('cd-mins', m);
+  setEl('cd-secs', s);
+}
+
+/* ─── TICKER ─────────────────────────────────────────────────── */
+function buildTicker() {
+  const container = document.getElementById('tickerItems');
+  if (!container) return;
+  const items = [...TICKER_MATCHES, ...TICKER_MATCHES]; // duplicate for seamless loop
+  container.innerHTML = items.map(m =>
+    `<div class="ticker-item">
+      <div class="live-dot" ${m.status.startsWith('LIVE') ? '' : 'style="background:rgba(255,255,255,0.4);animation:none;"'}></div>
+      <span>${m.home}</span>
+      <span class="score">${m.score}</span>
+      <span>${m.away}</span>
+      <span style="color:rgba(255,255,255,0.5);font-size:11px;">${m.status}</span>
+    </div>`
+  ).join('');
+}
+
+/* ─── HERO ATTENDANCE COUNTER ────────────────────────────────── */
+function animateCounter(elementId, target, duration = 2000) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const start = performance.now();
+  const update = (time) => {
+    const progress = Math.min((time - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = Math.floor(eased * target);
+    el.textContent = val.toLocaleString();
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+/* ─── STADIUM MAP LAYER ──────────────────────────────────────── */
+function setMapLayer(layer) {
+  // Update buttons
+  document.querySelectorAll('.map-toggle-btn').forEach(b => b.classList.remove('active'));
+  const idMap = { normal: 'mapBtnNormal', heat: 'mapBtnHeat', access: 'mapBtnAccess', route: 'mapBtnRoute' };
+  const btn = document.getElementById(idMap[layer]);
+  if (btn) btn.classList.add('active');
+
+  // Toggle SVG layers
+  const heatEl   = document.getElementById('heatmapOverlay');
+  const accessEl = document.getElementById('accessOverlay');
+  const routeEl  = document.getElementById('aiRoute');
+
+  if (heatEl)   heatEl.style.display   = layer === 'heat'   ? 'block' : 'none';
+  if (accessEl) accessEl.style.display = layer === 'access' ? 'block' : 'none';
+  if (routeEl)  routeEl.style.display  = layer === 'route'  ? 'block' : 'none';
+}
+
+/* ─── ZONE SELECTION ─────────────────────────────────────────── */
+function selectZone(zone) {
+  const data = ZONE_DATA[zone];
+  if (!data) return;
+
+  const panel = document.getElementById('zoneDetail');
+  const icon  = document.getElementById('zoneDetailIcon');
+  const title = document.getElementById('zoneDetailTitle');
+  const body  = document.getElementById('zoneDetailBody');
+
+  if (panel && icon && title && body) {
+    icon.textContent  = data.icon;
+    title.textContent = data.title;
+    body.textContent  = data.body;
+    panel.style.display = 'block';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Highlight zone in SVG
+  document.querySelectorAll('.zone-path').forEach(p => {
+    p.style.opacity = '0.4';
+    p.style.transition = 'opacity 0.3s';
+  });
+  const selectedZoneEl = document.getElementById('zone-' + zone);
+  if (selectedZoneEl) {
+    const path = selectedZoneEl.querySelector('.zone-path');
+    if (path) { path.style.opacity = '1'; }
+    setTimeout(() => {
+      document.querySelectorAll('.zone-path').forEach(p => p.style.opacity = '1');
+    }, 3000);
+  }
+}
+
+/* ─── CROWD GAUGE CHARTS (Canvas) ───────────────────────────── */
+function drawArcGauge(canvasId, value, color, bgColor) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx = 60, cy = 60, r = 48;
+  ctx.clearRect(0, 0, 120, 120);
+
+  // Background arc
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, Math.PI * 0.75, Math.PI * 2.25);
+  ctx.strokeStyle = bgColor || 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 10;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // Value arc
+  const startAngle = Math.PI * 0.75;
+  const endAngle   = startAngle + (value / 100) * Math.PI * 1.5;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, startAngle, endAngle);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 10;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // Glow effect
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 16;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, startAngle, endAngle);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+}
+
+function drawCrowdGauges() {
+  drawArcGauge('gauge-north', STATE.crowdData.north, '#EF4444');
+  drawArcGauge('gauge-south', STATE.crowdData.south, '#22C55E');
+  drawArcGauge('gauge-east',  STATE.crowdData.east,  '#F59E0B');
+}
+
+/* ─── CROWD FLOW LINE CHART (Canvas) ────────────────────────── */
+function drawCrowdFlowChart() {
+  const canvas = document.getElementById('crowdFlowChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 900;
+  const H = 200;
+  canvas.width  = W;
+  canvas.height = H;
+
+  const dataPoints = [12, 18, 28, 42, 55, 64, 70, 78, 82, 88, 94, 91, 85, 78, 72, 68, 65];
+  const labels    = ['15:00','15:15','15:30','15:45','16:00','16:15','16:30','16:45','17:00','17:15','17:30','17:45','18:00','18:15','18:30','18:45','19:00'];
+  const pad = { top: 20, right: 20, bottom: 40, left: 40 };
+  const pw = W - pad.left - pad.right;
+  const ph = H - pad.top  - pad.bottom;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.top + (ph / 4) * i;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + pw, y); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.font = '10px Inter';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${100 - i * 25}%`, pad.left - 6, y + 4);
+  }
+
+  // Gradient fill
+  const pts = dataPoints.map((v, i) => ({
+    x: pad.left + (i / (dataPoints.length - 1)) * pw,
+    y: pad.top  + (1 - v / 100) * ph
+  }));
+
+  const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + ph);
+  grad.addColorStop(0,   'rgba(232,0,28,0.4)');
+  grad.addColorStop(1,   'rgba(232,0,28,0)');
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pad.top + ph);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length - 1].x, pad.top + ph);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Main line
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pts[0].y);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.strokeStyle = '#E8001C';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // Data dots
+  pts.forEach((p, i) => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#E8001C';
+    ctx.fill();
+    ctx.strokeStyle = '#060914';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  // Labels (every other)
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.font = '9px Inter';
+  ctx.textAlign = 'center';
+  pts.forEach((p, i) => {
+    if (i % 2 === 0) ctx.fillText(labels[i], p.x, H - pad.bottom + 14);
+  });
+
+  // Now marker
+  const nowIdx = Math.round(dataPoints.length * 0.65);
+  const nowPt  = pts[nowIdx];
+  ctx.strokeStyle = 'rgba(255,215,0,0.6)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(nowPt.x, pad.top);
+  ctx.lineTo(nowPt.x, pad.top + ph);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#FFD700';
+  ctx.font = 'bold 10px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillText('NOW', nowPt.x, pad.top - 4);
+}
+
+/* ─── ANALYTICS CHART ────────────────────────────────────────── */
+function drawAnalyticsChart() {
+  const canvas = document.getElementById('analyticsChart');
+  if (!canvas) return;
+  const W = canvas.offsetWidth || 900;
+  const H = 260;
+  canvas.width  = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  const todayData = [5, 10, 18, 32, 48, 62, 74, 82, 88, 94, 90, 85, 80, 75, 70, 68, 65, 60, 48, 30, 18, 10, 5];
+  const histData  = [8, 12, 20, 35, 50, 60, 68, 75, 80, 85, 82, 78, 74, 70, 66, 62, 58, 52, 44, 32, 20, 12, 8];
+  const labels    = Array.from({length: 23}, (_, i) => `${String(i + 10).padStart(2,'0')}:00`);
+  const pad = { top: 30, right: 30, bottom: 50, left: 50 };
+  const pw = W - pad.left - pad.right;
+  const ph = H - pad.top  - pad.bottom;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Grid
+  for (let i = 0; i <= 5; i++) {
+    const y = pad.top + (ph / 5) * i;
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + pw, y); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.font = '10px Inter';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${100 - i * 20}%`, pad.left - 8, y + 4);
+  }
+
+  const makePts = (data) => data.map((v, i) => ({
+    x: pad.left + (i / (data.length - 1)) * pw,
+    y: pad.top  + (1 - v / 100) * ph
+  }));
+
+  const todayPts = makePts(todayData);
+  const histPts  = makePts(histData);
+
+  // Historical area
+  const hGrad = ctx.createLinearGradient(0, pad.top, 0, pad.top + ph);
+  hGrad.addColorStop(0, 'rgba(0,212,170,0.1)');
+  hGrad.addColorStop(1, 'rgba(0,212,170,0)');
+  ctx.beginPath();
+  ctx.moveTo(histPts[0].x, pad.top + ph);
+  histPts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(histPts[histPts.length-1].x, pad.top + ph);
+  ctx.fillStyle = hGrad; ctx.fill();
+
+  // Historical line (dashed)
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  histPts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+  ctx.strokeStyle = '#00D4AA'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Today area
+  const tGrad = ctx.createLinearGradient(0, pad.top, 0, pad.top + ph);
+  tGrad.addColorStop(0, 'rgba(232,0,28,0.3)');
+  tGrad.addColorStop(1, 'rgba(232,0,28,0)');
+  ctx.beginPath();
+  ctx.moveTo(todayPts[0].x, pad.top + ph);
+  todayPts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(todayPts[todayPts.length-1].x, pad.top + ph);
+  ctx.fillStyle = tGrad; ctx.fill();
+
+  // Today line
+  ctx.beginPath();
+  todayPts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+  ctx.strokeStyle = '#E8001C'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
+
+  // Dot on current time
+  const nowIdx  = Math.round(todayPts.length * 0.55);
+  const nowPt   = todayPts[nowIdx];
+  ctx.beginPath(); ctx.arc(nowPt.x, nowPt.y, 6, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFD700'; ctx.fill();
+  ctx.strokeStyle = '#060914'; ctx.lineWidth = 2; ctx.stroke();
+
+  // X-axis labels
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.font = '9px Inter';
+  ctx.textAlign = 'center';
+  todayPts.forEach((p, i) => {
+    if (i % 4 === 0) ctx.fillText(labels[i], p.x, H - pad.bottom + 16);
+  });
+}
+
+/* ─── TRANSPORT FORECAST CHART ───────────────────────────────── */
+function drawTransportForecastChart() {
+  const canvas = document.getElementById('transportForecastChart');
+  if (!canvas) return;
+  const W = canvas.offsetWidth || 400;
+  const H = 200;
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  const bars  = [
+    { label: 'Subway', value: 65, color: '#3B82F6' },
+    { label: 'Bus', value: 40, color: '#22C55E' },
+    { label: 'Rideshare', value: 88, color: '#EF4444' },
+    { label: 'Parking', value: 75, color: '#F59E0B' },
+  ];
+  const pad = { top: 20, right: 20, bottom: 40, left: 20 };
+  const pw  = W - pad.left - pad.right;
+  const ph  = H - pad.top  - pad.bottom;
+  const bw  = (pw / bars.length) * 0.55;
+  const gap  = pw / bars.length;
+
+  ctx.clearRect(0, 0, W, H);
+
+  bars.forEach((b, i) => {
+    const x  = pad.left + gap * i + (gap - bw) / 2;
+    const bh = (b.value / 100) * ph;
+    const y  = pad.top + ph - bh;
+
+    // Background bar
+    ctx.fillStyle = 'rgba(255,255,255,0.05)';
+    ctx.beginPath();
+    roundRect(ctx, x, pad.top, bw, ph, 6);
+    ctx.fill();
+
+    // Value bar
+    const grad = ctx.createLinearGradient(0, y, 0, y + bh);
+    grad.addColorStop(0, b.color);
+    grad.addColorStop(1, b.color + '60');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    roundRect(ctx, x, y, bw, bh, 6);
+    ctx.fill();
+
+    // Label
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '10px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText(b.label, x + bw / 2, H - pad.bottom + 16);
+    ctx.fillStyle = b.color;
+    ctx.font = 'bold 11px Inter';
+    ctx.fillText(b.value + '%', x + bw / 2, y - 6);
+  });
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+}
+
+/* ─── SUSTAINABILITY RING GAUGES ─────────────────────────────── */
+function drawRingGauge(canvasId, value, color) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx = 50, cy = 50, r = 38;
+  ctx.clearRect(0, 0, 100, 100);
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 8;
+  ctx.stroke();
+
+  const endAngle = -Math.PI / 2 + (value / 100) * Math.PI * 2;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, -Math.PI / 2, endAngle);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 8;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 12;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+}
+
+function drawRingGauges() {
+  drawRingGauge('ring-carbon',  42, '#00D4AA');
+  drawRingGauge('ring-solar',   62, '#FFD700');
+  drawRingGauge('ring-recycle', 78, '#00D4AA');
+  drawRingGauge('ring-water',   31, '#3B82F6');
+}
+
+/* ─── CHATBOT ────────────────────────────────────────────────── */
+function toggleChatbot() {
+  STATE.chatOpen = !STATE.chatOpen;
+  const panel = document.getElementById('chatbotPanel');
+  if (panel) panel.classList.toggle('open', STATE.chatOpen);
+
+  if (STATE.chatOpen && document.getElementById('chatMessages').children.length === 0) {
+    initChatbot();
+  }
+}
+
+function initChatbot() {
+  const lang     = STATE.chatLanguage;
+  const responses = AI_RESPONSES[lang] || AI_RESPONSES['en'];
+  const messages  = document.getElementById('chatMessages');
+  messages.innerHTML = '';
+
+  addBotMessage(responses.welcome);
+  setTimeout(() => {
+    addQuickReplies(responses.quickReplies);
+  }, 600);
+}
+
+function changeLanguage(lang) {
+  STATE.chatLanguage = lang;
+  const messages = document.getElementById('chatMessages');
+  if (messages) messages.innerHTML = '';
+  setTimeout(initChatbot, 200);
+}
+
+function addBotMessage(text) {
+  const messages = document.getElementById('chatMessages');
+  if (!messages) return;
+
+  // Show typing first
+  const typingEl = document.createElement('div');
+  typingEl.className = 'chat-msg bot';
+  typingEl.innerHTML = `
+    <div class="chat-bubble" style="padding:12px;">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>`;
+  messages.appendChild(typingEl);
+  messages.scrollTop = messages.scrollHeight;
+
+  setTimeout(() => {
+    typingEl.remove();
+    const msgEl = document.createElement('div');
+    msgEl.className = 'chat-msg bot';
+    // Convert **bold** and \n to formatted HTML
+    const formatted = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+    msgEl.innerHTML = `<div class="chat-bubble">${formatted}</div>`;
+    messages.appendChild(msgEl);
+    messages.scrollTop = messages.scrollHeight;
+  }, 900 + Math.random() * 400);
+}
+
+function addQuickReplies(replies) {
+  const messages = document.getElementById('chatMessages');
+  if (!messages || !replies) return;
+  const el = document.createElement('div');
+  el.className = 'chat-quick-replies';
+  el.innerHTML = replies.map(r =>
+    `<button class="chat-quick-btn" onclick="quickReply(this, '${r}')">${r}</button>`
+  ).join('');
+  messages.appendChild(el);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function quickReply(btn, text) {
+  const displayText = text.replace(/ [^\x00-\x7F]+$/, '').trim().replace(/\s+[^\x00-\x7F]$/, '');
+  sendChatMessage(text);
+  // Remove quick replies
+  btn.closest('.chat-quick-replies').remove();
+}
+
+function sendChatMessage(overrideText) {
+  const input   = document.getElementById('chatInput');
+  const messages = document.getElementById('chatMessages');
+  const text    = overrideText || (input ? input.value.trim() : '');
+  if (!text) return;
+  if (input && !overrideText) input.value = '';
+
+  // Add user message
+  const userEl = document.createElement('div');
+  userEl.className = 'chat-msg user';
+  userEl.innerHTML = `<div class="chat-bubble">${escapeHtml(text)}</div>`;
+  messages.appendChild(userEl);
+  messages.scrollTop = messages.scrollHeight;
+
+  // Get AI response
+  const lang      = STATE.chatLanguage;
+  const responses = AI_RESPONSES[lang] || AI_RESPONSES['en'];
+  const lc = text.toLowerCase();
+  let reply;
+  if (lc.includes('seat') || lc.includes('asiento') || lc.includes('siège') || lc.includes('assento') || lc.includes('sitz') || lc.includes('座位') || lc.includes('席')) {
+    reply = responses.seat || responses.default;
+  } else if (lc.includes('restroom') || lc.includes('toilet') || lc.includes('bathroom') || lc.includes('baño') || lc.includes('toilette') || lc.includes('banheiro') || lc.includes('wc') || lc.includes('🚻')) {
+    reply = responses.restroom || responses.default;
+  } else if (lc.includes('food') || lc.includes('eat') || lc.includes('comida') || lc.includes('manger') || lc.includes('comida') || lc.includes('🍔') || lc.includes('essen')) {
+    reply = responses.food || responses.default;
+  } else if (lc.includes('transport') || lc.includes('train') || lc.includes('bus') || lc.includes('subway') || lc.includes('🚇') || lc.includes('metro')) {
+    reply = responses.transport || responses.default;
+  } else if (lc.includes('access') || lc.includes('wheelchair') || lc.includes('♿') || lc.includes('disability') || lc.includes('sign language')) {
+    reply = responses.access || responses.default;
+  } else {
+    reply = responses.default;
+  }
+
+  addBotMessage(reply);
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+}
+
+function escapeHtml(text) {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/* ─── NOTIFICATIONS ──────────────────────────────────────────── */
+function showNotification(type, icon, title, msg) {
+  const panel = document.getElementById('notifPanel');
+  if (!panel) return;
+
+  const toast = document.createElement('div');
+  toast.className = `notif-toast ${type}`;
+  const time  = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  toast.innerHTML = `
+    <div class="toast-icon">${icon}</div>
+    <div class="toast-body">
+      <div class="toast-title">${title}</div>
+      <div class="toast-msg">${msg}</div>
+      <div class="toast-time">${time}</div>
+    </div>
+    <div class="toast-close" onclick="this.closest('.notif-toast').remove()">✕</div>`;
+
+  panel.appendChild(toast);
+
+  // Auto dismiss
+  setTimeout(() => {
+    toast.style.animation = 'toastOut 0.4s var(--ease-smooth) forwards';
+    setTimeout(() => toast.remove(), 400);
+  }, 7000);
+}
+
+function toggleNotifications() {
+  const panel = document.getElementById('notifPanel');
+  if (panel) {
+    panel.style.display = panel.style.display === 'none' ? 'flex' : 'flex';
+  }
+}
+
+/* ─── SCHEDULED NOTIFICATIONS ────────────────────────────────── */
+function scheduleNotifications() {
+  NOTIFICATIONS.forEach(n => {
+    setTimeout(() => showNotification(n.type, n.icon, n.title, n.msg), n.delay);
+  });
+}
+
+/* ─── REAL-TIME DATA SIMULATION ──────────────────────────────── */
+function simulateRealTimeData() {
+  setInterval(() => {
+    // Fluctuate crowd data
+    const jitter = () => (Math.random() - 0.5) * 3;
+    STATE.crowdData.north = Math.max(80, Math.min(100, STATE.crowdData.north + jitter()));
+    STATE.crowdData.south = Math.max(40, Math.min(75,  STATE.crowdData.south + jitter()));
+    STATE.crowdData.east  = Math.max(60, Math.min(88,  STATE.crowdData.east  + jitter()));
+
+    // Update gauge texts
+    const setGaugeText = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.childNodes[0].textContent = Math.round(val) + '%';
+    };
+    setGaugeText('gauge-north-text', STATE.crowdData.north);
+    setGaugeText('gauge-south-text', STATE.crowdData.south);
+    setGaugeText('gauge-east-text',  STATE.crowdData.east);
+
+    // Redraw gauges if visible
+    if (STATE.currentSection === 'crowd' && STATE.gaugesDrawn) {
+      drawCrowdGauges();
+    }
+
+    // Update stat card
+    const statCard = document.getElementById('statCrowdLevel');
+    if (statCard) statCard.textContent = Math.round(STATE.crowdData.north) + '%';
+
+    // Fluctuate transport wait times
+    const transportJitter = () => Math.floor((Math.random() - 0.5) * 4);
+    STATE.transportData.subway = Math.max(3, Math.min(20, STATE.transportData.subway + transportJitter()));
+    STATE.transportData.bus    = Math.max(2, Math.min(12, STATE.transportData.bus    + transportJitter()));
+    STATE.transportData.ride   = Math.max(10, Math.min(30, STATE.transportData.ride  + transportJitter()));
+    STATE.transportData.park   = Math.max(5, Math.min(20,  STATE.transportData.park  + transportJitter()));
+
+    ['subway', 'bus', 'ride', 'park'].forEach(key => {
+      const el = document.getElementById(`wait-${key}`);
+      if (el) el.textContent = STATE.transportData[key];
+    });
+
+    const statTransit = document.getElementById('statTransitWait');
+    if (statTransit) statTransit.textContent = STATE.transportData.bus + ' min';
+
+  }, 3000);
+}
+
+/* ─── TRANSPORT REFRESH ──────────────────────────────────────── */
+function refreshTransport() {
+  const btn = document.getElementById('refreshTransportBtn');
+  if (btn) {
+    btn.textContent = '⏳ Refreshing...';
+    btn.disabled    = true;
+  }
+  setTimeout(() => {
+    STATE.transportData.subway = Math.floor(Math.random() * 10) + 4;
+    STATE.transportData.bus    = Math.floor(Math.random() * 6)  + 2;
+    STATE.transportData.ride   = Math.floor(Math.random() * 15) + 10;
+    STATE.transportData.park   = Math.floor(Math.random() * 10) + 8;
+
+    ['subway', 'bus', 'ride', 'park'].forEach(key => {
+      const el = document.getElementById(`wait-${key}`);
+      if (el) el.textContent = STATE.transportData[key];
+    });
+    if (btn) { btn.textContent = '✅ Updated!'; }
+    setTimeout(() => { if (btn) { btn.textContent = '🔄 Refresh'; btn.disabled = false; } }, 2000);
+    showNotification('success', '🚇', 'Transport Updated', 'Real-time transport data refreshed successfully.');
+  }, 1200);
+}
+
+/* ─── ACCESSIBILITY SERVICE REQUEST ─────────────────────────── */
+function requestService(service) {
+  const panel = document.getElementById('accessRequestPanel');
+  const title = document.getElementById('accessRequestTitle');
+  const body  = document.getElementById('accessRequestBody');
+
+  if (panel && title && body) {
+    title.textContent = `✅ ${service} Requested`;
+    body.textContent  = `A trained staff member is on their way to assist you with ${service}. Estimated arrival: 2-3 minutes. Your request ID: ACC-${Math.floor(Math.random() * 9000) + 1000}.`;
+    panel.style.display = 'flex';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    showNotification('success', '♿', 'Service Requested', `${service} confirmed. Staff en route (2-3 min).`);
+  }
+}
+
+/* ─── ECO TIPS REFRESH ───────────────────────────────────────── */
+let ecoTipIndex = 0;
+function refreshEcoTips() {
+  const list = document.getElementById('ecoTipsList');
+  if (!list) return;
+
+  const nextTips = [];
+  for (let i = 0; i < 3; i++) {
+    nextTips.push(ECO_TIPS[(ecoTipIndex + i) % ECO_TIPS.length]);
+  }
+  ecoTipIndex = (ecoTipIndex + 3) % ECO_TIPS.length;
+
+  list.innerHTML = nextTips.map(t => `
+    <div class="eco-tip">
+      <div class="eco-tip-icon">${t.icon}</div>
+      <div class="eco-tip-text">${t.text}</div>
+    </div>`
+  ).join('');
+}
+
+/* ─── INCIDENT REPORTING ─────────────────────────────────────── */
+const INCIDENT_TEMPLATES = [
+  { priority: 'medium', icon: '🔊', title: 'Noise Complaint — Section 204', meta: 'Fan dispute reported · Security dispatched' },
+  { priority: 'low',    icon: '🧹', title: 'Cleaning Required — Concourse B', meta: 'Spill reported at Gate B-12 · Cleaning crew notified' },
+  { priority: 'high',   icon: '🚑', title: 'Medical Emergency — Parking Lot D', meta: 'Fan reported chest pain · Ambulance en route' },
+  { priority: 'medium', icon: '🔒', title: 'Unauthorized Entry Attempt — VIP Zone', meta: 'Security engaged · Badge scan failed x3' },
+];
+let incidentTemplateIdx = 0;
+
+function addIncident() {
+  const list = document.getElementById('incidentList');
+  if (!list) return;
+  const t    = INCIDENT_TEMPLATES[incidentTemplateIdx % INCIDENT_TEMPLATES.length];
+  incidentTemplateIdx++;
+  STATE.incidentCount++;
+
+  const el = document.createElement('div');
+  el.className = `incident-item ${t.priority}`;
+  const badgeClass = { high: 'danger', medium: 'warning', low: 'info' }[t.priority];
+  const badgeText  = { high: 'HIGH', medium: 'MED', low: 'LOW' }[t.priority];
+  el.innerHTML = `
+    <div class="incident-icon">${t.icon}</div>
+    <div class="incident-body">
+      <div class="incident-title">${t.title}</div>
+      <div class="incident-meta">${t.meta}</div>
+    </div>
+    <div>
+      <div class="incident-time">Just now</div>
+      <span class="badge ${badgeClass}">${badgeText}</span>
+    </div>`;
+  list.prepend(el);
+
+  const kpi = document.getElementById('kpiIncidents');
+  if (kpi) kpi.textContent = STATE.incidentCount;
+  showNotification(t.priority === 'high' ? 'critical' : 'warning', t.icon, 'New Incident', t.title);
+}
+
+/* ─── EMERGENCY BROADCAST ────────────────────────────────────── */
+function triggerEmergency() {
+  const btn = document.getElementById('emergencyBtn');
+  if (!btn) return;
+
+  if (btn.dataset.confirmed !== 'true') {
+    btn.textContent = '⚠️ CONFIRM BROADCAST — CLICK AGAIN';
+    btn.dataset.confirmed = 'true';
+    setTimeout(() => {
+      btn.textContent = '🚨 EMERGENCY BROADCAST';
+      btn.dataset.confirmed = 'false';
+    }, 4000);
+    return;
+  }
+
+  btn.textContent = '📡 BROADCASTING...';
+  btn.disabled    = true;
+  showNotification('critical', '🚨', 'EMERGENCY BROADCAST', 'Emergency protocol activated. All staff notified. PA system engaged.');
+  setTimeout(() => {
+    btn.textContent = '✅ BROADCAST SENT';
+    setTimeout(() => {
+      btn.textContent = '🚨 EMERGENCY BROADCAST';
+      btn.disabled    = false;
+      btn.dataset.confirmed = 'false';
+    }, 3000);
+  }, 2000);
+}
+
+/* ─── CROWD FLOW CHART LIVE UPDATE ──────────────────────────── */
+function startChartLiveUpdate() {
+  setInterval(() => {
+    if (STATE.currentSection === 'crowd' && STATE.crowdChartDrawn) {
+      drawCrowdFlowChart();
+    }
+    if (STATE.currentSection === 'analytics' && STATE.analyticsChartDrawn) {
+      drawAnalyticsChart();
+    }
+  }, 8000);
+}
+
+/* ─── RESIZE HANDLER ─────────────────────────────────────────── */
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (STATE.crowdChartDrawn)    drawCrowdFlowChart();
+    if (STATE.analyticsChartDrawn) { drawAnalyticsChart(); drawTransportForecastChart(); }
+    if (STATE.sustainChartsDrawn) drawRingGauges();
+  }, 300);
+});
+
+/* ─── SOCIAL SENTIMENT ANIMATION ────────────────────────────── */
+function animateSentiment() {
+  setInterval(() => {
+    const pos = Math.floor(60 + Math.random() * 15);
+    const neg = Math.floor(10 + Math.random() * 10);
+    const neu = 100 - pos - neg;
+    const bar = document.getElementById('sentimentBar');
+    if (!bar) return;
+    const segs = bar.children;
+    if (segs[0]) segs[0].style.width = pos + '%';
+    if (segs[1]) segs[1].style.width = neu + '%';
+    if (segs[2]) segs[2].style.width = neg + '%';
+  }, 5000);
+}
+
+/* ─── HERO SECTION ───────────────────────────────────────────── */
+function initHero() {
+  // Show hero on load
+  document.getElementById('section-hero').style.display = '';
+
+  // Animate attendance counter after 500ms
+  setTimeout(() => animateCounter('heroAttendance', STATE.attendanceTarget), 500);
+}
+
+/* ─── INITIAL SECTION VISIBILITY FIX ────────────────────────── */
+function initSections() {
+  // All .section should be display:none, hero is separately managed
+  document.querySelectorAll('.section').forEach(s => {
+    s.style.display = 'none';
+  });
+  document.querySelectorAll('.section').forEach(s => {
+    s.classList.remove('active');
+  });
+}
+
+/* ─── MAIN INIT ──────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  initSections();
+  buildTicker();
+  initHero();
+  scheduleNotifications();
+  simulateRealTimeData();
+  animateSentiment();
+  startChartLiveUpdate();
+
+  // Start countdown
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // Initial welcome notification
+  setTimeout(() => {
+    showNotification('info', '🤖', 'GoalIQ AI Ready', 'Your AI platform is online. Real-time data streaming from 42 stadium sensors.');
+  }, 2000);
+
+  // Fix CSS section display — sections use class toggle
+  const style = document.createElement('style');
+  style.textContent = `.section { display: none; } .section.active { display: block; }`;
+  document.head.appendChild(style);
+});
+
+</script>
+</body>
+</html>

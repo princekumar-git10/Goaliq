@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIFA World Cup 2026 — AI Platform | GoalIQ</title>
+  <meta name="description" content="GoalIQ: The official AI-powered fan & operations platform for FIFA World Cup 2026. Smart stadium navigation, multilingual support, crowd management, and more." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══ ANIMATED BACKGROUND ORBS ═══════════════════════════════ -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+
+<!-- ═══ LIVE MATCH TICKER ════════════════════════════════════════ -->
+<div class="ticker-bar" role="marquee" aria-label="Live match scores">
+  <div class="ticker-label">⚽ <span>LIVE</span></div>
+  <div class="ticker-track">
+    <div class="ticker-items" id="tickerItems">
+      <!-- Cloned in JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a class="nav-logo" href="#" onclick="showSection('hero'); return false;" aria-label="GoalIQ Home">
+    <div class="nav-logo-icon">⚽</div>
+    <span>Goal<span>IQ</span></span>
+  </a>
+
+  <div class="nav-links" role="menubar">
+    <button class="nav-link active" role="menuitem" onclick="showSection('hero')" id="nav-hero">
+      <span class="nav-icon">🏠</span> Home
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('stadium')" id="nav-stadium">
+      <span class="nav-icon">🗺️</span> Stadium
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('crowd')" id="nav-crowd">
+      <span class="nav-icon">📊</span> Crowd & Transport
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('fan')" id="nav-fan">
+      <span class="nav-icon">🎯</span> Fan Zone
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('accessibility')" id="nav-accessibility">
+      <span class="nav-icon">♿</span> Accessibility
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('sustainability')" id="nav-sustainability">
+      <span class="nav-icon">🌱</span> Sustainability
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('analytics')" id="nav-analytics">
+      <span class="nav-icon">📈</span> Analytics
+    </button>
+    <button class="nav-link" role="menuitem" onclick="showSection('command')" id="nav-command">
+      <span class="nav-icon">🛡️</span> Command Center
+    </button>
+  </div>
+
+  <div class="nav-right">
+    <div class="role-switcher" role="group" aria-label="Select user role">
+      <button class="role-btn active" id="role-fan"       onclick="switchRole('fan')">Fan</button>
+      <button class="role-btn"        id="role-volunteer" onclick="switchRole('volunteer')">Volunteer</button>
+      <button class="role-btn"        id="role-staff"     onclick="switchRole('staff')">Staff</button>
+      <button class="role-btn"        id="role-organizer" onclick="switchRole('organizer')">Organizer</button>
+    </div>
+    <button class="nav-notification-btn" onclick="toggleNotifications()" aria-label="Notifications" id="notifBtn">
+      🔔
+      <div class="notif-badge"></div>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ NOTIFICATIONS PANEL ══════════════════════════════════════ -->
+<div class="notif-panel" id="notifPanel" aria-live="polite"></div>
+
+<!-- ═══ APP WRAPPER ══════════════════════════════════════════════ -->
+<main class="app-wrapper">
+
+  <!-- ════ HERO SECTION ════════════════════════════════════════ -->
+  <div id="section-hero" class="hero">
+    <div class="hero-inner">
+      <div class="hero-bg-pattern"></div>
+      <div class="hero-content">
+        <div class="hero-tag">
+          <div class="live-indicator"></div>
+          🤖 AI-Powered Platform · FIFA World Cup 2026
+        </div>
+        <h1 class="hero-title">
+          The Future of<br>
+          <span class="gradient-text">World Cup</span><br>
+          Experience
+        </h1>
+        <p class="hero-desc">
+          GoalIQ combines Generative AI with real-time data to create the world's most advanced stadium experience platform — for fans, staff, volunteers, and organizers.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showSection('stadium')" id="exploreStadiumBtn">
+            🗺️ Explore Stadium
+          </button>
+          <button class="btn-secondary" onclick="toggleChatbot()" id="openAIBtn">
+            🤖 Ask AI Assistant
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value" id="heroAttendance">0</div>
+            <div class="hero-stat-label">Today's Attendance</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">48</div>
+            <div class="hero-stat-label">Teams Competing</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">16</div>
+            <div class="hero-stat-label">Host Cities</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">104</div>
+            <div class="hero-stat-label">Matches Total</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="globe-container">
+          <div class="globe-ring globe-ring-3"></div>
+          <div class="globe-ring globe-ring-2"></div>
+          <div class="globe-ring globe-ring-1"></div>
+          <div class="globe"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Countdown -->
+    <div style="margin-top:20px; display:flex; justify-content:center;">
+      <div class="countdown-wrapper">
+        <div>
+          <div class="countdown-label">Next Match Starts In</div>
+          <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">🏟️ MetLife Stadium · USA vs Mexico</div>
+        </div>
+        <div class="countdown-timer">
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-hours">00</span>
+            <div class="countdown-unit-label">Hours</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-mins">00</span>
+            <div class="countdown-unit-label">Mins</div>
+          </div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-secs">00</span>
+            <div class="countdown-unit-label">Secs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats Row -->
+    <div class="stat-cards" style="margin-top:20px;">
+      <div class="stat-card red">
+        <div class="stat-card-header">
+          <span class="stat-card-icon">📍</span>
+          <span class="stat-card-change up">▲ 12%</span>
+        </div>
+        <div class="stat-card-value" id="statCrowdLevel">78%</div>
+        <div class="stat-card-label">Stadium Capacity</div>
+        <div class="stat-card-sub">🔴 High occupancy detected in North Stand</div>
+      </div>
+      <div class="stat-card gold">
+        <div class="stat-card-header">
+          <span class="stat-card-icon">🚇</span>
+          <span class="stat-card-change down">▼ 3min</span>
+        </div>
+        <div class="stat-card-value" id="statTransitWait">8 min</div>
+        <div class="stat-card-label">Transit Wait Time</div>
+        <div class="stat-card-sub">🟡 Green Line slightly delayed</div>
+      </div>
+      <div class="stat-card teal">
+        <div class="stat-card-header">
+          <span class="stat-card-icon">🌱</span>
+          <span class="stat-card-change up">▲ 4%</span>
+        </div>
+        <div class="stat-card-value">62%</div>
+        <div class="stat-card-label">Renewable Energy Use</div>
+        <div class="stat-card-sub">🟢 Solar panels at peak output</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-card-header">
+          <span class="stat-card-icon">🤖</span>
+          <span class="stat-card-change up">▲ 19%</span>
+        </div>
+        <div class="stat-card-value">4,291</div>
+        <div class="stat-card-label">AI Queries Resolved</div>
+        <div class="stat-card-sub">💬 in last 60 minutes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ STADIUM NAVIGATOR ════════════════════════════════════ -->
+  <section id="section-stadium" class="section" aria-label="Smart Stadium Navigator">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">AI-Powered Navigation</div>
+        <h2 class="section-title">Smart Stadium Navigator</h2>
+        <p class="section-subtitle">Real-time zone status, crowd heatmaps and AI-guided pathfinding</p>
+      </div>
+      <div class="section-badge"><div class="live-indicator"></div> Live Updates</div>
+    </div>
+
+    <div class="alert-banner warning" id="stadiumAlert">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <div class="alert-title">AI Alert: North Stand Gate C Congested</div>
+        <div class="alert-body">Crowd density at 94% capacity. AI recommends using Gate D or E. Estimated wait: 4 min via alternate route.</div>
+      </div>
+      <div class="alert-dismiss" onclick="this.parentElement.remove()">✕</div>
+    </div>
+
+    <div class="stadium-section">
+      <div class="stadium-map-card">
+        <div class="flex-between mb-md">
+          <div class="card-title">🏟️ MetLife Stadium — Interactive Map</div>
+          <div style="font-size:12px;color:var(--text-secondary);">Click any zone for details</div>
+        </div>
+        <div class="stadium-controls">
+          <button class="map-toggle-btn active" id="mapBtnNormal" onclick="setMapLayer('normal')">Normal View</button>
+          <button class="map-toggle-btn" id="mapBtnHeat" onclick="setMapLayer('heat')">🔥 Heatmap</button>
+          <button class="map-toggle-btn" id="mapBtnAccess" onclick="setMapLayer('access')">♿ Accessible</button>
+          <button class="map-toggle-btn" id="mapBtnRoute" onclick="setMapLayer('route')">🗺️ Route</button>
+        </div>
+        <div class="stadium-svg-wrapper">
+          <svg id="stadiumSvg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stadium map">
+            <!-- Outer stadium shell -->
+            <ellipse cx="400" cy="250" rx="380" ry="230" fill="#0d1525" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+            <!-- Field -->
+            <ellipse cx="400" cy="250" rx="250" ry="150" fill="#1a3a1a" stroke="#2d5a2d" stroke-width="2"/>
+            <!-- Field markings -->
+            <ellipse cx="400" cy="250" rx="220" ry="120" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <line x1="400" y1="130" x2="400" y2="370" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <ellipse cx="400" cy="250" rx="30" ry="30" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <circle cx="400" cy="250" r="3" fill="rgba(255,255,255,0.4)"/>
+            <!-- Goals -->
+            <rect x="150" y="228" width="12" height="44" fill="none" stroke="white" stroke-width="1.5" opacity="0.6"/>
+            <rect x="638" y="228" width="12" height="44" fill="none" stroke="white" stroke-width="1.5" opacity="0.6"/>
+
+            <!-- STANDS — clickable zones -->
+            <!-- North Stand -->
+            <g class="stadium-zone" id="zone-north" onclick="selectZone('north')" style="cursor:pointer;">
+              <path d="M200,70 Q400,20 600,70 L560,130 Q400,85 240,130 Z" fill="rgba(232,0,28,0.35)" stroke="rgba(232,0,28,0.6)" stroke-width="1.5" class="zone-path"/>
+              <text x="400" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Outfit">NORTH STAND</text>
+              <text x="400" y="116" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">Gate A·B·C — 94% Full ⚠️</text>
+            </g>
+
+            <!-- South Stand -->
+            <g class="stadium-zone" id="zone-south" onclick="selectZone('south')" style="cursor:pointer;">
+              <path d="M200,430 Q400,480 600,430 L560,370 Q400,415 240,370 Z" fill="rgba(34,197,94,0.25)" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" class="zone-path"/>
+              <text x="400" y="418" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Outfit">SOUTH STAND</text>
+              <text x="400" y="434" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">Gate D·E·F — 61% Full ✅</text>
+            </g>
+
+            <!-- East Stand -->
+            <g class="stadium-zone" id="zone-east" onclick="selectZone('east')" style="cursor:pointer;">
+              <path d="M640,120 Q730,250 640,380 L590,330 Q670,250 590,170 Z" fill="rgba(255,215,0,0.2)" stroke="rgba(255,215,0,0.5)" stroke-width="1.5" class="zone-path"/>
+              <text x="665" y="255" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Outfit">EAST</text>
+              <text x="665" y="270" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">Gate G·H</text>
+            </g>
+
+            <!-- West Stand -->
+            <g class="stadium-zone" id="zone-west" onclick="selectZone('west')" style="cursor:pointer;">
+              <path d="M160,120 Q70,250 160,380 L210,330 Q130,250 210,170 Z" fill="rgba(0,212,170,0.2)" stroke="rgba(0,212,170,0.5)" stroke-width="1.5" class="zone-path"/>
+              <text x="135" y="255" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Outfit">WEST</text>
+              <text x="135" y="270" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10">VIP·Press</text>
+            </g>
+
+            <!-- VIP / Press Box -->
+            <g class="stadium-zone" id="zone-vip" onclick="selectZone('vip')" style="cursor:pointer;">
+              <rect x="330" y="170" width="140" height="60" rx="8" fill="rgba(124,58,237,0.3)" stroke="rgba(124,58,237,0.6)" stroke-width="1.5"/>
+              <text x="400" y="197" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="Outfit">VIP / PRESS</text>
+              <text x="400" y="212" text-anchor="middle" fill="rgba(255,215,0,0.8)" font-size="10">Restricted Access</text>
+            </g>
+
+            <!-- Food Court Markers -->
+            <g id="zone-food" onclick="selectZone('food')" style="cursor:pointer;">
+              <circle cx="290" cy="420" r="20" fill="rgba(245,158,11,0.3)" stroke="rgba(245,158,11,0.7)" stroke-width="1.5"/>
+              <text x="290" y="415" text-anchor="middle" font-size="14">🍔</text>
+              <text x="290" y="428" text-anchor="middle" fill="white" font-size="8" font-family="Outfit">FOOD</text>
+              <circle cx="510" cy="420" r="20" fill="rgba(245,158,11,0.3)" stroke="rgba(245,158,11,0.7)" stroke-width="1.5"/>
+              <text x="510" y="415" text-anchor="middle" font-size="14">🍔</text>
+              <text x="510" y="428" text-anchor="middle" fill="white" font-size="8" font-family="Outfit">FOOD</text>
+            </g>
+
+            <!-- First Aid -->
+            <g id="zone-firstaid" onclick="selectZone('firstaid')" style="cursor:pointer;">
+              <circle cx="290" cy="80" r="16" fill="rgba(239,68,68,0.3)" stroke="rgba(239,68,68,0.7)" stroke-width="1.5"/>
+              <text x="290" y="76" text-anchor="middle" font-size="12">🏥</text>
+              <text x="290" y="88" text-anchor="middle" fill="white" font-size="7" font-family="Outfit">FIRST AID</text>
+              <circle cx="510" cy="80" r="16" fill="rgba(239,68,68,0.3)" stroke="rgba(239,68,68,0.7)" stroke-width="1.5"/>
+              <text x="510" y="76" text-anchor="middle" font-size="12">🏥</text>
+              <text x="510" y="88" text-anchor="middle" fill="white" font-size="7" font-family="Outfit">FIRST AID</text>
+            </g>
+
+            <!-- Accessible zones -->
+            <g id="zone-accessible" onclick="selectZone('accessible')" style="cursor:pointer;">
+              <circle cx="170" cy="440" r="16" fill="rgba(59,130,246,0.3)" stroke="rgba(59,130,246,0.7)" stroke-width="1.5"/>
+              <text x="170" y="436" text-anchor="middle" font-size="12">♿</text>
+              <text x="170" y="452" text-anchor="middle" fill="white" font-size="7" font-family="Outfit">ACCESS</text>
+              <circle cx="630" cy="440" r="16" fill="rgba(59,130,246,0.3)" stroke="rgba(59,130,246,0.7)" stroke-width="1.5"/>
+              <text x="630" y="436" text-anchor="middle" font-size="12">♿</text>
+              <text x="630" y="452" text-anchor="middle" fill="white" font-size="7" font-family="Outfit">ACCESS</text>
+            </g>
+
+            <!-- AI Route Overlay (hidden by default) -->
+            <g id="aiRoute" style="display:none;">
+              <path d="M400,450 Q400,420 290,420 Q240,420 210,370 Q190,330 190,250" stroke="#00D4AA" stroke-width="3" fill="none" stroke-dasharray="10,5" opacity="0.8">
+                <animate attributeName="stroke-dashoffset" from="0" to="-30" dur="1s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="400" cy="455" r="8" fill="var(--teal)" opacity="0.9"/>
+              <circle cx="190" cy="250" r="8" fill="var(--gold)" opacity="0.9"/>
+              <text x="400" y="475" text-anchor="middle" fill="var(--teal)" font-size="10" font-family="Outfit">📍 You</text>
+              <text x="175" y="240" text-anchor="end" fill="var(--gold)" font-size="10" font-family="Outfit">🎯 Dest</text>
+            </g>
+
+            <!-- Heatmap overlay -->
+            <g id="heatmapOverlay" style="display:none;">
+              <defs>
+                <radialGradient id="heatNorth" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#EF4444" stop-opacity="0.7"/>
+                  <stop offset="100%" stop-color="#EF4444" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="heatSouth" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#22C55E" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#22C55E" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="400" cy="100" rx="220" ry="70" fill="url(#heatNorth)"/>
+              <ellipse cx="400" cy="400" rx="200" ry="60" fill="url(#heatSouth)"/>
+              <ellipse cx="660" cy="250" rx="80" ry="120" fill="rgba(255,215,0,0.3)"/>
+              <ellipse cx="140" cy="250" rx="80" ry="120" fill="rgba(0,212,170,0.25)"/>
+            </g>
+
+            <!-- Accessibility overlay -->
+            <g id="accessOverlay" style="display:none;">
+              <path d="M170,440 Q170,380 210,330 Q250,280 250,250" stroke="#3B82F6" stroke-width="3" fill="none" stroke-dasharray="8,4" opacity="0.9"/>
+              <path d="M630,440 Q630,380 590,330 Q550,280 550,250" stroke="#3B82F6" stroke-width="3" fill="none" stroke-dasharray="8,4" opacity="0.9"/>
+              <text x="400" y="470" text-anchor="middle" fill="#3B82F6" font-size="11" font-family="Outfit">♿ Accessible Routes Highlighted</text>
+            </g>
+
+            <!-- Compass -->
+            <text x="760" y="40" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="12" font-family="Outfit">N</text>
+            <text x="760" y="480" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="12" font-family="Outfit">S</text>
+          </svg>
+        </div>
+
+        <!-- Zone Detail Info -->
+        <div id="zoneDetail" class="mt-md" style="display:none;">
+          <div class="alert-banner info" id="zoneDetailBanner">
+            <div class="alert-icon" id="zoneDetailIcon">📍</div>
+            <div class="alert-content">
+              <div class="alert-title" id="zoneDetailTitle">Zone Name</div>
+              <div class="alert-body" id="zoneDetailBody">Zone information</div>
+            </div>
+            <button onclick="document.getElementById('aiRoute').style.display='block'" class="btn-secondary" style="padding:6px 12px; font-size:12px; white-space:nowrap;">🗺️ Get Route</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zone Info Sidebar -->
+      <div class="zone-info-panel">
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon red">🏟️</span> Zone Status</div>
+          <div class="zone-card" onclick="selectZone('north')">
+            <div class="zone-card-header">
+              <div class="zone-card-name"><span class="zone-dot" style="background:#EF4444"></span>North Stand</div>
+              <span class="badge danger">CONGESTED</span>
+            </div>
+            <div class="zone-card-capacity">Gate A · B · C</div>
+            <div class="progress-bar"><div class="progress-fill danger" style="width:94%"></div></div>
+            <div class="zone-card-capacity mt-sm">94% capacity · Est. wait 8 min</div>
+          </div>
+          <div class="zone-card" onclick="selectZone('south')">
+            <div class="zone-card-header">
+              <div class="zone-card-name"><span class="zone-dot" style="background:#22C55E"></span>South Stand</div>
+              <span class="badge green">OPEN</span>
+            </div>
+            <div class="zone-card-capacity">Gate D · E · F</div>
+            <div class="progress-bar"><div class="progress-fill green" style="width:61%"></div></div>
+            <div class="zone-card-capacity mt-sm">61% capacity · Est. wait 2 min</div>
+          </div>
+          <div class="zone-card" onclick="selectZone('east')">
+            <div class="zone-card-header">
+              <div class="zone-card-name"><span class="zone-dot" style="background:#FFD700"></span>East Stand</div>
+              <span class="badge warning">BUSY</span>
+            </div>
+            <div class="zone-card-capacity">Gate G · H</div>
+            <div class="progress-bar"><div class="progress-fill warning" style="width:78%"></div></div>
+            <div class="zone-card-capacity mt-sm">78% capacity · Est. wait 5 min</div>
+          </div>
+          <div class="zone-card" onclick="selectZone('west')">
+            <div class="zone-card-header">
+              <div class="zone-card-name"><span class="zone-dot" style="background:#00D4AA"></span>West Stand / VIP</div>
+              <span class="badge teal">VIP ONLY</span>
+            </div>
+            <div class="zone-card-capacity">Press · VIP · Suite Level</div>
+            <div class="progress-bar"><div class="progress-fill teal" style="width:45%"></div></div>
+            <div class="zone-card-capacity mt-sm">45% · Credential required</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon gold">🤖</span> AI Recommendations</div>
+          <div style="display:flex;flex-direction:column;gap:10px;" id="aiRecommendations">
+            <div class="eco-tip" style="background:var(--fifa-red-dim);border-color:rgba(232,0,28,0.2);">
+              <div class="eco-tip-icon">🚨</div>
+              <div class="eco-tip-text"><strong style="color:var(--fifa-red)">High Alert:</strong> Avoid Gate C — rerouting 2,400 fans to Gate D automatically via push notification.</div>
+            </div>
+            <div class="eco-tip">
+              <div class="eco-tip-icon">⏱️</div>
+              <div class="eco-tip-text"><strong>Queue Prediction:</strong> Halftime surge expected at Gates A-C in <strong>~14 minutes</strong>. Deploying 6 extra staff.</div>
+            </div>
+            <div class="eco-tip" style="background:var(--gold-dim);border-color:rgba(255,215,0,0.2);">
+              <div class="eco-tip-icon">🍔</div>
+              <div class="eco-tip-text">Food Court 2 (South) has <strong style="color:var(--gold)">shorter queues</strong>. Average wait: 3 min vs 11 min at Food Court 1.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ CROWD & TRANSPORT ════════════════════════════════════ -->
+  <section id="section-crowd" class="section" aria-label="Crowd and Transport Management">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Real-Time Management</div>
+        <h2 class="section-title">Crowd &amp; Transport Hub</h2>
+        <p class="section-subtitle">Live density monitoring, predictive surge detection &amp; transport status</p>
+      </div>
+      <div class="section-badge"><div class="live-indicator"></div> Live Data Stream</div>
+    </div>
+
+    <!-- Crowd Density Gauges -->
+    <div class="crowd-gauges">
+      <div class="gauge-card">
+        <div class="gauge-canvas-wrap">
+          <canvas id="gauge-north" width="120" height="120"></canvas>
+          <div class="gauge-value" id="gauge-north-text" style="color:#EF4444">94%<span>North</span></div>
+        </div>
+        <div class="gauge-label">North Stand</div>
+        <div class="gauge-sublabel">⚠️ 12,680 / 13,500</div>
+        <span class="badge danger" style="margin-top:8px">CONGESTED</span>
+      </div>
+      <div class="gauge-card">
+        <div class="gauge-canvas-wrap">
+          <canvas id="gauge-south" width="120" height="120"></canvas>
+          <div class="gauge-value" id="gauge-south-text" style="color:#22C55E">61%<span>South</span></div>
+        </div>
+        <div class="gauge-label">South Stand</div>
+        <div class="gauge-sublabel">✅ 8,235 / 13,500</div>
+        <span class="badge green" style="margin-top:8px">OPEN</span>
+      </div>
+      <div class="gauge-card">
+        <div class="gauge-canvas-wrap">
+          <canvas id="gauge-east" width="120" height="120"></canvas>
+          <div class="gauge-value" id="gauge-east-text" style="color:#F59E0B">78%<span>East</span></div>
+        </div>
+        <div class="gauge-label">East Stand</div>
+        <div class="gauge-sublabel">🟡 10,530 / 13,500</div>
+        <span class="badge warning" style="margin-top:8px">BUSY</span>
+      </div>
+    </div>
+
+    <!-- Crowd Flow Chart -->
+    <div class="analytics-chart-card mb-md">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon red">📈</span> Real-Time Crowd Flow — Last 3 Hours</div>
+        <span class="badge green"><div class="live-indicator"></div> Updating</span>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="crowdFlowChart" width="900" height="200" style="width:100%;height:200px;display:block;"></canvas>
+      </div>
+    </div>
+
+    <!-- AI Surge Alert -->
+    <div class="alert-banner danger mb-md" id="surgeAlert">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-content">
+        <div class="alert-title">AI Prediction: Crowd Surge in 12 Minutes</div>
+        <div class="alert-body">North Stand halftime exit projected at 8,900 people. AI auto-deploying crowd control to Gates A–C. Consider activating overflow Protocol Alpha.</div>
+      </div>
+      <div class="alert-dismiss" onclick="this.parentElement.remove()">✕</div>
+    </div>
+
+    <!-- Transport Status -->
+    <div class="card mb-md">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon gold">🚇</span> Transport Status</div>
+        <button class="btn-secondary" style="padding:6px 14px;font-size:12px;" onclick="refreshTransport()" id="refreshTransportBtn">🔄 Refresh</button>
+      </div>
+      <div class="transport-grid">
+        <div class="transport-card">
+          <div class="transport-icon">🚇</div>
+          <div class="transport-name">Subway — Line 4</div>
+          <div class="transport-status">🟡 Minor Delays · Meadowlands</div>
+          <div class="transport-wait" id="wait-subway">8</div>
+          <div class="transport-wait-label">min avg wait</div>
+          <div class="spacer-sm"></div>
+          <div class="progress-bar"><div class="progress-fill warning" id="transit-subway" style="width:65%"></div></div>
+        </div>
+        <div class="transport-card">
+          <div class="transport-icon">🚌</div>
+          <div class="transport-name">Shuttle Bus A</div>
+          <div class="transport-status">🟢 On Schedule · Route 7</div>
+          <div class="transport-wait" id="wait-bus">4</div>
+          <div class="transport-wait-label">min avg wait</div>
+          <div class="spacer-sm"></div>
+          <div class="progress-bar"><div class="progress-fill green" id="transit-bus" style="width:40%"></div></div>
+        </div>
+        <div class="transport-card">
+          <div class="transport-icon">🚗</div>
+          <div class="transport-name">Rideshare Zone</div>
+          <div class="transport-status">🔴 High Demand · Surge Pricing</div>
+          <div class="transport-wait" id="wait-ride">18</div>
+          <div class="transport-wait-label">min avg wait</div>
+          <div class="spacer-sm"></div>
+          <div class="progress-bar"><div class="progress-fill danger" id="transit-ride" style="width:90%"></div></div>
+        </div>
+        <div class="transport-card">
+          <div class="transport-icon">🅿️</div>
+          <div class="transport-name">Parking Lots</div>
+          <div class="transport-status">🟡 Lots B &amp; C Full</div>
+          <div class="transport-wait" id="wait-park">12</div>
+          <div class="transport-wait-label">min to find spot</div>
+          <div class="spacer-sm"></div>
+          <div class="progress-bar"><div class="progress-fill warning" id="transit-park" style="width:78%"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FAN EXPERIENCE ═══════════════════════════════════════ -->
+  <section id="section-fan" class="section" aria-label="Fan Experience Hub">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Personalized For You</div>
+        <h2 class="section-title">Fan Experience Hub</h2>
+        <p class="section-subtitle">Your match schedule, live scores, fan zone and more</p>
+      </div>
+      <div class="section-badge"><span id="userRoleDisplay">⚽ Fan Mode</span></div>
+    </div>
+
+    <!-- Live Matches -->
+    <div class="grid-3 mb-md">
+      <div class="match-card">
+        <div class="match-teams">
+          <div style="text-align:center;">
+            <span class="team-flag">🇺🇸</span>
+            <div class="team-name">USA</div>
+          </div>
+          <div class="match-vs">
+            <div class="match-score">2 — 1</div>
+            <div class="match-time-badge">⚽ 68'</div>
+          </div>
+          <div style="text-align:center;">
+            <span class="team-flag">🇲🇽</span>
+            <div class="team-name">Mexico</div>
+          </div>
+        </div>
+        <div class="match-info">
+          <div class="match-info-item">🏟️ MetLife Stadium, NJ</div>
+          <div class="match-info-item">👤 Your Seat: Sec 113 Row F</div>
+          <div class="match-info-item">📅 Group Stage · Match 38</div>
+        </div>
+      </div>
+      <div class="match-card">
+        <div class="match-teams">
+          <div style="text-align:center;">
+            <span class="team-flag">🇧🇷</span>
+            <div class="team-name">Brazil</div>
+          </div>
+          <div class="match-vs">
+            <div class="match-score">0 — 0</div>
+            <div class="match-time-badge" style="background:var(--info-dim);border-color:rgba(59,130,246,0.3);color:var(--info);">🕐 19:30</div>
+          </div>
+          <div style="text-align:center;">
+            <span class="team-flag">🇦🇷</span>
+            <div class="team-name">Argentina</div>
+          </div>
+        </div>
+        <div class="match-info">
+          <div class="match-info-item">🏟️ AT&amp;T Stadium, Dallas</div>
+          <div class="match-info-item">📅 Group Stage · Match 39</div>
+        </div>
+      </div>
+      <div class="match-card">
+        <div class="match-teams">
+          <div style="text-align:center;">
+            <span class="team-flag">🇩🇪</span>
+            <div class="team-name">Germany</div>
+          </div>
+          <div class="match-vs">
+            <div class="match-score">3 — 2</div>
+            <div class="match-time-badge">⚽ FT</div>
+          </div>
+          <div style="text-align:center;">
+            <span class="team-flag">🇫🇷</span>
+            <div class="team-name">France</div>
+          </div>
+        </div>
+        <div class="match-info">
+          <div class="match-info-item">🏟️ Rose Bowl, LA</div>
+          <div class="match-info-item">📅 Group Stage · Match 37</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-21 mb-md">
+      <!-- Social Sentiment -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-icon red">💬</span> Live Social Sentiment</div>
+          <span class="badge green"><div class="live-indicator"></div> Real-Time</span>
+        </div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">Analyzing 142,000+ posts/min across social platforms</div>
+        <div class="sentiment-bar" id="sentimentBar">
+          <div class="sentiment-segment" style="width:68%;background:var(--success);"></div>
+          <div class="sentiment-segment" style="width:18%;background:var(--text-muted);"></div>
+          <div class="sentiment-segment" style="width:14%;background:var(--danger);"></div>
+        </div>
+        <div class="flex-between mt-sm" style="font-size:12px;">
+          <span style="color:var(--success)">😊 68% Positive</span>
+          <span style="color:var(--text-muted)">😐 18% Neutral</span>
+          <span style="color:var(--danger)">😠 14% Negative</span>
+        </div>
+        <div class="divider"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="socialFeed">
+          <div class="eco-tip" style="background:var(--glass-bg);border-color:var(--glass-border);">
+            <div class="eco-tip-icon">🔥</div>
+            <div class="eco-tip-text"><strong>#USAMEX</strong> is trending #1 globally — 2.4M tweets in last hour. Fan energy score: <strong style="color:var(--gold)">9.4/10</strong></div>
+          </div>
+          <div class="eco-tip" style="background:var(--glass-bg);border-color:var(--glass-border);">
+            <div class="eco-tip-icon">⚽</div>
+            <div class="eco-tip-text">AI Detected: <strong>Goal celebration surge</strong> at MetLife Stadium section 113–118. Noise level 127dB recorded.</div>
+          </div>
+          <div class="eco-tip" style="background:var(--glass-bg);border-color:var(--glass-border);">
+            <div class="eco-tip-icon">📸</div>
+            <div class="eco-tip-text">88,000 photos uploaded from MetLife Stadium today. AI auto-tagged <strong>23,400 fan memories</strong>.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fan Quick Actions -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon gold">⚡</span> Quick Actions</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <button class="access-service-card" onclick="selectZone('food')" id="findFoodBtn">
+              <div class="access-service-icon">🍔</div>
+              <div class="access-service-name">Order Food</div>
+              <div class="access-service-desc">AI-picks shortest queue</div>
+            </button>
+            <button class="access-service-card" onclick="showSection('stadium')" id="findSeatBtn">
+              <div class="access-service-icon">🗺️</div>
+              <div class="access-service-name">Find My Seat</div>
+              <div class="access-service-desc">AR-guided navigation</div>
+            </button>
+            <button class="access-service-card" onclick="toggleChatbot()" id="translateBtn">
+              <div class="access-service-icon">🌍</div>
+              <div class="access-service-name">Translate</div>
+              <div class="access-service-desc">30+ languages</div>
+            </button>
+            <button class="access-service-card" id="arPhotoBtn">
+              <div class="access-service-icon">📸</div>
+              <div class="access-service-name">AR Photo</div>
+              <div class="access-service-desc">Trophy Room & AR Booth</div>
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon purple">🏆</span> Your Match Ticket</div>
+          <div style="background:linear-gradient(135deg,rgba(232,0,28,0.15),rgba(255,215,0,0.1));border:1px dashed rgba(255,215,0,0.3);border-radius:12px;padding:16px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🎫</div>
+            <div style="font-family:var(--font-heading);font-size:16px;font-weight:700;">USA vs Mexico</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">MetLife Stadium · Section 113 · Row F · Seat 22</div>
+            <div style="margin-top:12px;font-size:28px;letter-spacing:8px;font-family:monospace;color:var(--gold);">▓▓▓▓▓▓▓<br>▓ QR ▓<br>▓▓▓▓▓▓▓</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">Ticket ID: WC26-MS-113-F22 · Verified ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ ACCESSIBILITY ════════════════════════════════════════ -->
+  <section id="section-accessibility" class="section" aria-label="Accessibility Support Center">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Inclusive Experience</div>
+        <h2 class="section-title">Accessibility Support</h2>
+        <p class="section-subtitle">AI-powered inclusive services for every fan</p>
+      </div>
+      <div class="section-badge">🟢 All Services Active</div>
+    </div>
+
+    <div class="grid-12 mb-md">
+      <div>
+        <div class="access-service-grid mb-md">
+          <div class="access-service-card" id="wheelchairBtn" onclick="requestService('Wheelchair Assistance')">
+            <div class="access-service-icon">♿</div>
+            <div class="access-service-name">Wheelchair Assistance</div>
+            <div class="access-service-desc">Request a companion guide</div>
+            <div class="access-service-status available">Available · 2 min</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Sign Language Interpreter')">
+            <div class="access-service-icon">🤟</div>
+            <div class="access-service-name">Sign Language</div>
+            <div class="access-service-desc">AI-powered interpreter</div>
+            <div class="access-service-status available">Available · 1 min</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Audio Description')">
+            <div class="access-service-icon">🎧</div>
+            <div class="access-service-name">Audio Descriptions</div>
+            <div class="access-service-desc">Live AI narration in your language</div>
+            <div class="access-service-status available">Available Now</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Sensory-Friendly Zone')">
+            <div class="access-service-icon">🌿</div>
+            <div class="access-service-name">Sensory-Friendly Zone</div>
+            <div class="access-service-desc">Quiet areas with reduced stimuli</div>
+            <div class="access-service-status available">Open · Level 2</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Visual Assistance')">
+            <div class="access-service-icon">👁️</div>
+            <div class="access-service-name">Visual Assistance</div>
+            <div class="access-service-desc">AI guide for low-vision fans</div>
+            <div class="access-service-status busy">Busy · 5 min wait</div>
+          </div>
+          <div class="access-service-card" onclick="requestService('Medical Support')">
+            <div class="access-service-icon">💊</div>
+            <div class="access-service-name">Medical Support</div>
+            <div class="access-service-desc">First aid + paramedic on call</div>
+            <div class="access-service-status available">On Standby</div>
+          </div>
+        </div>
+        <div id="accessRequestPanel" style="display:none;" class="alert-banner success">
+          <div class="alert-icon">✅</div>
+          <div class="alert-content">
+            <div class="alert-title" id="accessRequestTitle">Service Requested</div>
+            <div class="alert-body" id="accessRequestBody">A staff member is on their way. Estimated arrival: 2 minutes.</div>
+          </div>
+          <div class="alert-dismiss" onclick="document.getElementById('accessRequestPanel').style.display='none'">✕</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon teal">🤖</span> AI Accessibility Assistant</div>
+          <div style="background:var(--teal-dim);border:1px solid rgba(0,212,170,0.2);border-radius:12px;padding:16px;margin-bottom:12px;">
+            <div style="font-size:13px;line-height:1.7;color:var(--text-secondary);">
+              <strong style="color:var(--teal)">Hi! I'm your AI Accessibility Companion.</strong><br>
+              I can help you navigate the stadium, request services, find quiet spaces, or connect you with sign language interpreters in real-time. Ask me anything!
+            </div>
+          </div>
+          <button class="btn-primary" style="width:100%;justify-content:center;" onclick="toggleChatbot()" id="openAccessChatBtn">
+            💬 Chat with AI Assistant
+          </button>
+        </div>
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon red">📍</span> Accessible Routes</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">All accessible routes are step-free and elevator-accessible</div>
+          <div class="volunteer-zone-list">
+            <div class="volunteer-zone-item">
+              <div class="volunteer-dot" style="background:var(--info)"></div>
+              <div class="volunteer-zone-name">Gate B → Section 113 (Accessible)</div>
+              <div style="font-size:11px;color:var(--info);">4 min</div>
+            </div>
+            <div class="volunteer-zone-item">
+              <div class="volunteer-dot" style="background:var(--info)"></div>
+              <div class="volunteer-zone-name">West Entrance → VIP Accessible</div>
+              <div style="font-size:11px;color:var(--info);">2 min</div>
+            </div>
+            <div class="volunteer-zone-item">
+              <div class="volunteer-dot" style="background:var(--success)"></div>
+              <div class="volunteer-zone-name">Parking Lot A → Elevator Bank</div>
+              <div style="font-size:11px;color:var(--success);">6 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ SUSTAINABILITY ═══════════════════════════════════════ -->
+  <section id="section-sustainability" class="section" aria-label="Sustainability Insights">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Green World Cup</div>
+        <h2 class="section-title">Sustainability Insights</h2>
+        <p class="section-subtitle">Real-time environmental metrics for the world's most sustainable World Cup</p>
+      </div>
+      <div class="section-badge">🌍 Carbon Neutral Goal 2026</div>
+    </div>
+
+    <!-- Ring Gauges -->
+    <div class="sustain-ring-grid mb-md">
+      <div class="sustain-ring-card">
+        <div class="sustain-ring-wrap">
+          <canvas id="ring-carbon" width="100" height="100" class="sustain-ring-canvas"></canvas>
+          <div class="sustain-ring-text text-gradient-teal">-42%</div>
+        </div>
+        <div class="sustain-ring-title">Carbon Reduction</div>
+        <div class="sustain-ring-sub">vs. 2022 Qatar WC baseline</div>
+      </div>
+      <div class="sustain-ring-card">
+        <div class="sustain-ring-wrap">
+          <canvas id="ring-solar" width="100" height="100" class="sustain-ring-canvas"></canvas>
+          <div class="sustain-ring-text text-gradient-gold">62%</div>
+        </div>
+        <div class="sustain-ring-title">Renewable Energy</div>
+        <div class="sustain-ring-sub">Solar + Wind combined</div>
+      </div>
+      <div class="sustain-ring-card">
+        <div class="sustain-ring-wrap">
+          <canvas id="ring-recycle" width="100" height="100" class="sustain-ring-canvas"></canvas>
+          <div class="sustain-ring-text text-gradient-teal">78%</div>
+        </div>
+        <div class="sustain-ring-title">Waste Recycled</div>
+        <div class="sustain-ring-sub">4.2T diverted from landfill today</div>
+      </div>
+      <div class="sustain-ring-card">
+        <div class="sustain-ring-wrap">
+          <canvas id="ring-water" width="100" height="100" class="sustain-ring-canvas"></canvas>
+          <div class="sustain-ring-text" style="color:var(--info)">-31%</div>
+        </div>
+        <div class="sustain-ring-title">Water Savings</div>
+        <div class="sustain-ring-sub">vs. historical match average</div>
+      </div>
+    </div>
+
+    <!-- Carbon Offset Progress -->
+    <div class="card mb-md">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon teal">🌳</span> Carbon Offset Progress — Tournament Total</div>
+        <span class="badge teal">72% of Goal</span>
+      </div>
+      <div style="margin-bottom:10px;font-size:13px;color:var(--text-secondary);">
+        248,000 tonnes offset of 345,000 tonne target — 28 match days remaining
+      </div>
+      <div class="progress-bar" style="height:12px;margin-bottom:10px;">
+        <div class="progress-fill teal" style="width:72%"></div>
+      </div>
+      <div class="flex-between" style="font-size:12px;">
+        <span style="color:var(--teal)">🌿 248,000T Offset</span>
+        <span style="color:var(--text-muted)">Target: 345,000T</span>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-md">
+      <!-- Energy Breakdown -->
+      <div class="card">
+        <div class="card-title mb-md"><span class="card-icon gold">⚡</span> Energy Sources — Live</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>☀️ Solar</span><span class="text-gradient-gold" style="font-weight:700;">38%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill gold" style="width:38%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>💨 Wind</span><span class="text-gradient-teal" style="font-weight:700;">24%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill teal" style="width:24%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>🔋 Grid</span><span style="font-weight:700;color:var(--text-secondary);">28%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:28%;background:var(--text-muted)"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>🛢️ Generator</span><span class="text-gradient-red" style="font-weight:700;">10%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill red" style="width:10%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Eco Tips -->
+      <div class="card">
+        <div class="card-title mb-md"><span class="card-icon teal">🤖</span> AI Sustainability Tips</div>
+        <div style="display:flex;flex-direction:column;gap:10px;" id="ecoTipsList">
+          <div class="eco-tip">
+            <div class="eco-tip-icon">🚌</div>
+            <div class="eco-tip-text">Taking public transport today reduces your carbon footprint by <strong>2.4kg CO₂</strong> versus driving. 78% of fans are already using transit!</div>
+          </div>
+          <div class="eco-tip">
+            <div class="eco-tip-icon">♻️</div>
+            <div class="eco-tip-text">Yellow bins = recyclables, Blue bins = compostable. AI scanning confirms <strong>92% sorting accuracy</strong> at this stadium today.</div>
+          </div>
+          <div class="eco-tip">
+            <div class="eco-tip-icon">💧</div>
+            <div class="eco-tip-text">Refill stations on Levels 2 &amp; 3 provide <strong>free filtered water</strong>. 14,200 plastic bottles saved at this venue today.</div>
+          </div>
+        </div>
+        <button class="btn-secondary" style="width:100%;justify-content:center;margin-top:12px;" onclick="refreshEcoTips()" id="refreshEcoBtn">🔄 Generate New Tips</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ ANALYTICS ════════════════════════════════════════════ -->
+  <section id="section-analytics" class="section" aria-label="Predictive Analytics">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">AI-Powered Predictions</div>
+        <h2 class="section-title">Predictive Analytics</h2>
+        <p class="section-subtitle">ML-powered forecasting for crowd flow, transport demand &amp; operations</p>
+      </div>
+      <div class="section-badge"><div class="live-indicator"></div> Updating Every 30s</div>
+    </div>
+
+    <!-- KPIs Row -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;">
+      <div class="stat-card red">
+        <div class="stat-card-header"><span class="stat-card-icon">👥</span><span class="stat-card-change up">▲ 4%</span></div>
+        <div class="stat-card-value">74,230</div>
+        <div class="stat-card-label">Attendance Forecast</div>
+      </div>
+      <div class="stat-card gold">
+        <div class="stat-card-header"><span class="stat-card-icon">⏱️</span><span class="stat-card-change down">▼ 2min</span></div>
+        <div class="stat-card-value">6 min</div>
+        <div class="stat-card-label">Avg Gate Queue (pred.)</div>
+      </div>
+      <div class="stat-card teal">
+        <div class="stat-card-header"><span class="stat-card-icon">🚇</span><span class="stat-card-change up">▲ 12%</span></div>
+        <div class="stat-card-value">48,000</div>
+        <div class="stat-card-label">Transit Riders (pred.)</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-card-header"><span class="stat-card-icon">🍔</span><span class="stat-card-change up">▲ 8%</span></div>
+        <div class="stat-card-value">$2.4M</div>
+        <div class="stat-card-label">F&amp;B Revenue (pred.)</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-card-header"><span class="stat-card-icon">⭐</span><span class="stat-card-change up">▲ 0.2</span></div>
+        <div class="stat-card-value">4.7</div>
+        <div class="stat-card-label">Satisfaction Score (pred.)</div>
+      </div>
+    </div>
+
+    <!-- Main Analytics Chart -->
+    <div class="analytics-chart-card mb-md">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon red">📈</span> Match-Day Crowd Prediction — Today vs Historical Average</div>
+        <div style="display:flex;gap:12px;font-size:12px;align-items:center;">
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:var(--fifa-red);display:inline-block;border-radius:2px;"></span> Today (AI Predicted)</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:var(--teal);display:inline-block;border-radius:2px;border-style:dashed;"></span> Historical Avg</span>
+        </div>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="analyticsChart" width="900" height="260" style="width:100%;height:260px;display:block;"></canvas>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Transport Forecast -->
+      <div class="analytics-chart-card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-icon gold">🚇</span> Transport Demand Forecast</div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="transportForecastChart" width="400" height="200" style="width:100%;height:200px;display:block;"></canvas>
+        </div>
+      </div>
+      <!-- Queue Estimator -->
+      <div class="card">
+        <div class="card-title mb-md"><span class="card-icon teal">⏱️</span> Gate Queue Time Estimator</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate A</span><span class="badge danger">12 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill danger" style="width:90%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate B</span><span class="badge warning">7 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill warning" style="width:60%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate C</span><span class="badge danger">14 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill danger" style="width:95%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate D</span><span class="badge green">3 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill green" style="width:28%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate E</span><span class="badge green">2 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill green" style="width:18%"></div></div>
+          </div>
+          <div>
+            <div class="flex-between mb-sm" style="font-size:13px;">
+              <span>Gate F</span><span class="badge teal">4 min</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill teal" style="width:35%"></div></div>
+          </div>
+        </div>
+        <div class="alert-banner info mt-md" style="margin-bottom:0;">
+          <div class="alert-icon">🤖</div>
+          <div class="alert-content">
+            <div class="alert-title">AI Recommendation</div>
+            <div class="alert-body">Direct 35% of incoming fans to Gates D-F to balance queue times within ±2 min across all gates.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ COMMAND CENTER ═══════════════════════════════════════ -->
+  <section id="section-command" class="section" aria-label="Operational Command Center">
+    <div class="section-header">
+      <div class="section-title-group">
+        <div class="section-eyebrow">Staff &amp; Organizer View</div>
+        <h2 class="section-title">Operational Command Center</h2>
+        <p class="section-subtitle">AI-powered incident management, volunteer deployment &amp; real-time KPIs</p>
+      </div>
+      <div class="section-badge"><div class="live-indicator"></div> Ops Mode Active</div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-grid mb-md">
+      <div class="kpi-card">
+        <div style="font-size:22px;">👥</div>
+        <div class="kpi-value text-gradient-gold" id="kpiAttend">74,230</div>
+        <div class="kpi-label">Attendance</div>
+      </div>
+      <div class="kpi-card">
+        <div style="font-size:22px;">⭐</div>
+        <div class="kpi-value" style="color:var(--success)">4.7/5</div>
+        <div class="kpi-label">Satisfaction</div>
+      </div>
+      <div class="kpi-card">
+        <div style="font-size:22px;">🚨</div>
+        <div class="kpi-value" id="kpiIncidents" style="color:var(--danger)">3</div>
+        <div class="kpi-label">Active Incidents</div>
+      </div>
+      <div class="kpi-card">
+        <div style="font-size:22px;">🦺</div>
+        <div class="kpi-value" style="color:var(--teal)">342</div>
+        <div class="kpi-label">Volunteers Active</div>
+      </div>
+      <div class="kpi-card">
+        <div style="font-size:22px;">🤖</div>
+        <div class="kpi-value" style="color:var(--purple)">97%</div>
+        <div class="kpi-label">AI Decision Rate</div>
+      </div>
+    </div>
+
+    <div class="grid-21 mb-md">
+      <!-- Incident Panel -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-icon red">🚨</span> Active Incidents</div>
+          <button class="btn-secondary" style="padding:6px 14px;font-size:12px;" onclick="addIncident()" id="addIncidentBtn">+ Report</button>
+        </div>
+        <div class="incident-list" id="incidentList">
+          <div class="incident-item high">
+            <div class="incident-icon">⚠️</div>
+            <div class="incident-body">
+              <div class="incident-title">North Stand Gate C — Overcrowding</div>
+              <div class="incident-meta">Zone N-C · 94% capacity · AI dispatched 6 staff</div>
+            </div>
+            <div>
+              <div class="incident-time">2 min ago</div>
+              <span class="badge danger">HIGH</span>
+            </div>
+          </div>
+          <div class="incident-item medium">
+            <div class="incident-icon">🚑</div>
+            <div class="incident-body">
+              <div class="incident-title">Medical Assistance — Section 201</div>
+              <div class="incident-meta">Fan reported dizziness · Paramedic en route</div>
+            </div>
+            <div>
+              <div class="incident-time">5 min ago</div>
+              <span class="badge warning">MED</span>
+            </div>
+          </div>
+          <div class="incident-item low">
+            <div class="incident-icon">🔧</div>
+            <div class="incident-body">
+              <div class="incident-title">Turnstile Malfunction — Gate B-7</div>
+              <div class="incident-meta">2 lanes down · Maintenance dispatched</div>
+            </div>
+            <div>
+              <div class="incident-time">12 min ago</div>
+              <span class="badge info">LOW</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <!-- Emergency Button -->
+        <button class="emergency-btn" onclick="triggerEmergency()" id="emergencyBtn">
+          🚨 EMERGENCY BROADCAST
+        </button>
+        <!-- Weather -->
+        <div class="card">
+          <div class="card-title mb-md"><span class="card-icon gold">🌤️</span> Weather &amp; Conditions</div>
+          <div style="font-size:36px;text-align:center;margin-bottom:8px;">⛅</div>
+          <div style="text-align:center;font-family:var(--font-heading);font-size:28px;font-weight:800;">72°F</div>
+          <div style="text-align:center;font-size:12px;color:var(--text-secondary);margin-top:4px;">Partly Cloudy · Humidity 68% · Wind 12mph NW</div>
+          <div class="alert-banner info mt-md" style="margin-bottom:0;padding:10px 14px;">
+            <div class="alert-icon">⚡</div>
+            <div class="alert-content">
+              <div class="alert-body">AI: No weather disruptions predicted for next 4 hours. Roof deployment not required.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volunteer Deployment -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-icon teal">🦺</span> Volunteer Deployment Map</div>
+        <span class="badge green">342 Active</span>
+      </div>
+      <div class="volunteer-zone-list" id="volunteerList">
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#EF4444"></div>
+          <div class="volunteer-zone-name">North Stand — Gate A/B/C (Priority)</div>
+          <div><div class="volunteer-count">68</div><div class="volunteer-needed">Need: 80</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#22C55E"></div>
+          <div class="volunteer-zone-name">South Stand — Gate D/E/F</div>
+          <div><div class="volunteer-count">52</div><div class="volunteer-needed">Need: 50 ✓</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#F59E0B"></div>
+          <div class="volunteer-zone-name">East Stand — Gate G/H</div>
+          <div><div class="volunteer-count">44</div><div class="volunteer-needed">Need: 45</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#00D4AA"></div>
+          <div class="volunteer-zone-name">West VIP / Press Zone</div>
+          <div><div class="volunteer-count">38</div><div class="volunteer-needed">Need: 35 ✓</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#3B82F6"></div>
+          <div class="volunteer-zone-name">Accessibility Support Team</div>
+          <div><div class="volunteer-count">24</div><div class="volunteer-needed">Need: 24 ✓</div></div>
+        </div>
+        <div class="volunteer-zone-item">
+          <div class="volunteer-dot" style="background:#7C3AED"></div>
+          <div class="volunteer-zone-name">Food Courts (1–4)</div>
+          <div><div class="volunteer-count">116</div><div class="volunteer-needed">Need: 120</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ AI CHATBOT ════════════════════════════════════════════════ -->
+<button class="chatbot-fab" onclick="toggleChatbot()" aria-label="Open AI Assistant" id="chatbotFab">🤖</button>
+<div class="chatbot-panel" id="chatbotPanel" role="dialog" aria-label="GoalIQ AI Assistant">
+  <div class="chatbot-header">
+    <div class="chatbot-avatar">🤖</div>
+    <div class="chatbot-info">
+      <div class="chatbot-name">GoalIQ AI</div>
+      <div class="chatbot-status">● Online · 30+ languages</div>
+    </div>
+    <select class="chatbot-lang-select" id="chatLangSelect" onchange="changeLanguage(this.value)">
+      <option value="en">🇺🇸 English</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="pt">🇧🇷 Português</option>
+      <option value="de">🇩🇪 Deutsch</option>
+      <option value="ar">🇸🇦 العربية</option>
+      <option value="zh">🇨🇳 中文</option>
+      <option value="ja">🇯🇵 日本語</option>
+      <option value="ko">🇰🇷 한국어</option>
+      <option value="hi">🇮🇳 हिन्दी</option>
+    </select>
+  </div>
+  <div class="chatbot-messages" id="chatMessages">
+    <!-- Welcome message injected via JS -->
+  </div>
+  <div class="chatbot-input-area">
+    <textarea class="chatbot-input" id="chatInput" placeholder="Ask anything… 'Find my seat', 'Nearest restroom'…" rows="1" onkeydown="handleChatKey(event)"></textarea>
+    <button class="chatbot-send" onclick="sendChatMessage()" aria-label="Send message">➤</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
